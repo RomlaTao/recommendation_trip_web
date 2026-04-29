@@ -1,0 +1,408 @@
+:root {
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+  color: #111827;
+  background-color: #f3f4f6;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+.app-header {
+  background: #111827;
+  color: #f9fafb;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.app-title {
+  margin: 0;
+  font-size: 1.125rem;
+}
+
+.app-nav {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.app-link {
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  border: 1px solid transparent;
+}
+
+.app-link.active {
+  border-color: #374151;
+  background: #1f2937;
+}
+
+.app-main {
+  padding: 1.5rem;
+}
+
+.panel {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+  max-width: 960px;
+}
+
+.button {
+  margin-top: 0.75rem;
+  border: 1px solid #2563eb;
+  background: #2563eb;
+  color: #ffffff;
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  cursor: pointer;
+}
+
+.auth-form {
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.75rem;
+  max-width: 360px;
+}
+
+.auth-field {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.auth-field span {
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+.auth-field input {
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.625rem;
+  font-size: 0.95rem;
+}
+
+.auth-field small {
+  color: #dc2626;
+}
+
+.auth-session {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.catalog-panel {
+  max-width: 1140px;
+}
+
+.catalog-header p {
+  margin-top: 0.25rem;
+  color: #4b5563;
+}
+
+.catalog-filters {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: minmax(240px, 1fr) 220px auto;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.catalog-input,
+.catalog-select {
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.625rem;
+  font-size: 0.95rem;
+  width: 100%;
+}
+
+.place-grid {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 0.875rem;
+}
+
+.place-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.place-card__media {
+  height: 140px;
+  background: #f3f4f6;
+}
+
+.place-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.place-card__placeholder {
+  height: 100%;
+  display: grid;
+  place-content: center;
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.place-card__body {
+  padding: 0.75rem;
+  display: grid;
+  gap: 0.3rem;
+}
+
+.place-card__category {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #2563eb;
+  font-weight: 600;
+}
+
+.place-card__title {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.place-card__address {
+  margin: 0;
+  color: #4b5563;
+  font-size: 0.875rem;
+}
+
+.place-card__ratings {
+  margin-top: 0.25rem;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: #374151;
+}
+
+.catalog-empty {
+  margin-top: 1rem;
+  border: 1px dashed #d1d5db;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  color: #4b5563;
+}
+
+.catalog-pagination {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.catalog-error {
+  color: #dc2626;
+  margin-top: 0.75rem;
+}
+
+.catalog-warning {
+  margin-top: 0.75rem;
+  color: #b45309;
+}
+
+.create-trip-dialog {
+  margin-top: 1rem;
+}
+
+.create-trip-form {
+  margin-top: 0.75rem;
+  display: grid;
+  gap: 0.75rem;
+  max-width: 420px;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 0.875rem;
+}
+
+.trip-grid {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 0.875rem;
+}
+
+.trip-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 0.875rem;
+  background: #ffffff;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.trip-card__status {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #2563eb;
+  font-weight: 600;
+}
+
+.trip-card__title {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.trip-card__date,
+.trip-card__meta {
+  margin: 0;
+  color: #4b5563;
+  font-size: 0.875rem;
+}
+
+.trip-detail {
+  margin-top: 0.75rem;
+}
+
+.trip-days {
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.trip-day-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+}
+
+.trip-day-card h3 {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.trip-day-empty {
+  margin: 0.5rem 0 0;
+  color: #6b7280;
+}
+
+.trip-item-list {
+  margin: 0.5rem 0 0;
+  padding-left: 1rem;
+  color: #374151;
+}
+
+.trip-builder {
+  margin-top: 0.75rem;
+}
+
+.trip-builder__header p {
+  margin: 0.25rem 0 0;
+  color: #4b5563;
+}
+
+.trip-builder__days {
+  margin-top: 1rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.trip-builder-day-wrap {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+}
+
+.trip-builder-day-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.trip-builder-day-actions .button {
+  margin-top: 0;
+}
+
+.trip-builder-day {
+  margin-top: 0.5rem;
+  background: #f9fafb;
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+}
+
+.trip-builder-day__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.trip-builder-day__header h3 {
+  margin: 0;
+}
+
+.trip-builder-day__items {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.trip-builder-item {
+  border: 1px solid #d1d5db;
+  border-radius: 0.625rem;
+  background: #ffffff;
+  padding: 0.625rem;
+  cursor: grab;
+}
+
+.trip-builder-item:active {
+  cursor: grabbing;
+}
+
+.trip-builder-item__type,
+.trip-builder-item__time,
+.trip-builder-item__meta,
+.trip-builder-item__note {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.trip-builder-item__type {
+  font-weight: 600;
+}

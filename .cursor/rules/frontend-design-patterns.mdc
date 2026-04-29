@@ -1,0 +1,99 @@
+# Frontend Design Pattern Rules
+
+## Scope
+
+Required implementation patterns for React + TanStack Query + Zustand + Tailwind v4.
+
+## Pattern 1: Container / Presentational Split
+
+- Presentational components:
+  - Usually in `core/components` or `features/*/components/*View.tsx`
+  - Render-only from props
+  - No API calls and no feature store coupling
+- Container logic:
+  - In `features/*/hooks.ts` or thin smart feature components
+  - Handles fetching, mutation, orchestration, and mapping
+
+## Pattern 2: Query/Mutation Hooks
+
+- Every backend endpoint should be wrapped by a feature-level hook.
+- Hook responsibilities:
+  - call `client.ts`
+  - expose loading/error/data state
+  - define query key
+  - manage invalidation on mutations
+
+Examples:
+- `useTripsQuery(params)`
+- `usePublicTripsQuery(params)`
+- `useUpdateTripVisibilityMutation()`
+
+## Pattern 3: Transport Client Pattern
+
+- `features/<feature>/client.ts` is a pure HTTP layer.
+- No React imports and no UI side-effects in client functions.
+- Token/header concerns are centralized in `core/api` interceptors.
+
+## Pattern 4: Query Key and Invalidation Pattern
+
+- Use deterministic array keys (`['trip', 'list', params]`).
+- Keep key factories in feature scope.
+- Use targeted invalidation only; avoid global broad invalidation.
+
+## Pattern 5: Tailwind v4 Styling Pattern
+
+- Styling uses Tailwind v4 CSS-first setup.
+- Global theme tokens are declared once in `src/core/styles/index.css`.
+- Prefer data-attribute styling for state variants:
+  - `data-[status=DRAFT]:...`
+
+## Pattern 6: Core Component Variant Pattern
+
+- In `core/components`, variantable primitives must use:
+  - `class-variance-authority` (CVA) for variant definitions
+  - `tailwind-merge` (`twMerge`) for class conflict resolution
+
+## Pattern 7: Layout Ownership Pattern ("No Outer Margin")
+
+- Reusable components must not enforce outer spacing on root nodes.
+- Parent layout/page owns spacing (`gap`, `grid`, `stack`, section paddings).
+
+Bad:
+- root has `mt-6`, `mb-4`
+
+Good:
+- parent wrapper uses `gap-6`; child stays margin-free.
+
+## Pattern 8: Form and Validation Pattern
+
+- Use `react-hook-form` for form state.
+- Use `zod` schemas for validation and payload transform.
+- Keep schemas close to feature contracts.
+
+## Pattern 9: Error Handling Pattern
+
+- Feature layer maps API errors to UI-friendly messages.
+- UI renders consistent states (loading, error, empty).
+- Avoid duplicated ad-hoc toast/error formatting in many components.
+
+## Pattern 10: Optimistic Update Policy
+
+- Allow optimistic updates only when rollback is trivial.
+- For high-risk trip schedule mutations, default to server-confirmed updates.
+
+## Pattern 11: Naming Convention Pattern
+
+- `client.ts`: transport functions
+- `hooks.ts`: React Query hooks
+- `store.ts`: Zustand store (optional)
+- `contracts.ts`: API contracts
+- Mutation function names use verb-first semantics.
+
+## Required Review Checklist
+
+- [ ] Page has no direct API logic.
+- [ ] Feature has typed `client.ts` + `hooks.ts`.
+- [ ] Query keys are stable and scoped.
+- [ ] Invalidations are specific.
+- [ ] Loading/error/empty states are covered.
+- [ ] No outer margin leakage from reusable components.

@@ -1,0 +1,92 @@
+---
+alwaysApply: true
+---
+
+# Frontend Architecture Rules (Lite Feature-Based)
+
+## Scope
+
+Apply these rules to all frontend source files (`src/**/*.{ts,tsx,css}`).
+
+## Canonical Structure
+
+```text
+src/
+├── app/                     # app bootstrap, providers, router, global guards
+├── core/                    # shared technical resources
+│   ├── api/                 # axios instance + interceptors
+│   ├── components/          # dumb reusable UI components
+│   ├── styles/              # global css + tailwind v4 theme setup
+│   ├── utils/
+│   └── constants/
+├── features/                # domain modules (trip, auth, ...)
+│   └── <feature>/
+│       ├── client.ts        # transport layer (no React imports)
+│       ├── hooks.ts         # react query hooks
+│       ├── contracts.ts     # typed request/response contracts
+│       ├── store.ts         # zustand (optional)
+│       └── components/      # feature-specific smart UI
+└── pages/                   # route-level composition only
+```
+
+## Non-negotiable Rules
+
+1. **Pages are receivers**
+   - `pages/` only assemble feature and core components.
+   - No direct HTTP calls from page files.
+   - No complex business logic in page files.
+
+2. **Feature ownership is strict**
+   - Business capability lives inside one feature folder.
+   - Keep API client, hooks, contracts, local store, and feature UI co-located.
+   - Avoid leaking feature internals across features.
+
+3. **Core UI is dumb**
+   - `core/components` must be domain-agnostic.
+   - No API calls, no auth awareness, no feature store reads.
+   - Render from props and emit callbacks only.
+
+4. **Smart logic stays in feature layer**
+   - `features/*/components` can use feature hooks/store.
+   - Reusable data logic should be extracted to hooks/helpers.
+
+5. **Data access layering is mandatory**
+   - `client.ts`: plain HTTP functions only.
+   - `hooks.ts`: React Query (`useQuery`, `useMutation`) only.
+   - Do not mix transport code into component files.
+
+6. **Contract-first typing**
+   - All request/response shapes live in `contracts.ts`.
+   - Components consume typed models, not `any`.
+
+## Dependency Direction
+
+Allowed:
+- `pages` -> `features`, `core`
+- `features` -> `core`
+- `app` -> `pages`, `features`, `core`
+
+Disallowed:
+- `core` importing from `features` or `pages`
+- deep feature-to-feature internal imports
+
+## State Strategy
+
+- Server state: TanStack Query.
+- Client transient state (drag and drop, draft edits): Zustand.
+- Do not mirror React Query server data into Zustand unless it is an editable draft.
+
+## Tailwind v4 Architecture Notes
+
+- Use CSS-first Tailwind v4 setup in `src/core/styles/index.css`.
+- Keep theme tokens in CSS (`@theme`) as the single source of truth.
+- Avoid introducing `tailwind.config.js` unless there is a concrete project need.
+
+## Delivery Quality Gate
+
+Before closing any frontend task:
+- No business logic in `pages/`.
+- No API logic in `core/components`.
+- Query keys are deterministic and scoped.
+- Loading, error, and empty states are present.
+- TypeScript has no new `any` regressions.

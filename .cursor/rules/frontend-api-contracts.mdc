@@ -1,0 +1,78 @@
+---
+alwaysApply: false
+---
+# Frontend API Contract and Integration Rules
+
+## Goal
+
+Keep frontend contracts tightly synchronized with backend APIs and prevent contract drift.
+
+## Contract Ownership
+
+- Each feature owns its contracts in `features/<feature>/contracts.ts`.
+- Contracts must mirror backend DTOs/response fields exactly.
+- Inline anonymous API types in components are not allowed.
+
+## Client and Hook Separation
+
+- `client.ts` contains only typed HTTP functions.
+- `hooks.ts` wraps client calls with React Query.
+- Components should consume hooks, not raw HTTP functions.
+
+## Request Rules
+
+- Use shared axios instance from `core/api`.
+- Query params must be typed objects, not string concatenation.
+- Use backend formats exactly:
+  - UUID for ids
+  - `YYYY-MM-DD` for date
+  - `HH:mm` for time
+
+## Response and Mapping Rules
+
+- Keep nullability explicit in contracts (`string | null`, etc.).
+- If UI model differs from API model, map in feature layer (hook/helper), not in page.
+- Do not silently ignore unknown fields from backend responses.
+
+## Pagination Rules
+
+- Standard request shape:
+  - `page` (1-based)
+  - `limit`
+- Hook defaults should be explicit and documented.
+
+## Trip-specific Integration Rules
+
+- Owner endpoints:
+  - `/trips`
+  - `/trips/:tripId`
+- Public endpoints:
+  - `/trips/public`
+  - `/trips/public/:tripId`
+- Visibility update:
+  - `/trips/:tripId/visibility`
+- Respect backend guard behavior: public trip endpoints currently still require auth.
+
+## Mutation Invalidation Rules
+
+- Visibility update must invalidate:
+  - owner trip list/detail keys
+  - public trip list/detail keys when affected
+- Day/item mutations must invalidate trip detail and any derived list views.
+
+## Change Management Procedure
+
+When backend API changes:
+1. Update `contracts.ts`.
+2. Update `client.ts` signatures and payloads.
+3. Update `hooks.ts` keys and invalidation logic.
+4. Update affected UI components/pages.
+5. Update tests and docs (`docs.md` session notes).
+
+## Required Integration Checklist
+
+- [ ] Endpoint path/method matches backend exactly.
+- [ ] Payload and response fields are fully typed.
+- [ ] Query and mutation hooks are present for new endpoints.
+- [ ] Invalidation strategy is explicit and targeted.
+- [ ] Loading/error/empty behavior is implemented in UI.

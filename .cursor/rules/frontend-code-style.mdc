@@ -1,0 +1,97 @@
+---
+alwaysApply: true
+---
+
+# Frontend Code Style Rules
+
+## Scope
+
+Apply to all frontend source files in `src/**/*.{ts,tsx,css}`.
+
+## Naming Conventions
+
+- Components: `PascalCase` (e.g., `TripCard.tsx`).
+- Hooks: `useXxx` prefix (e.g., `useTripDetailQuery`).
+- Files:
+  - `client.ts` for transport layer
+  - `hooks.ts` for query/mutation hooks
+  - `store.ts` for Zustand
+  - `contracts.ts` for DTO/type contracts
+- Variables/functions: `camelCase`.
+- Constants: `UPPER_SNAKE_CASE` only for true constants.
+
+## Import and Dependency Hygiene
+
+- Prefer absolute alias imports (e.g., `@/features/trip/...`) when available.
+- Group imports in this order:
+  1) external libs
+  2) app/core imports
+  3) feature/local imports
+  4) type-only imports
+- Remove unused imports immediately.
+
+## File and Function Size
+
+- Target file size:
+  - components/hooks: <= 250 lines
+  - pages: <= 200 lines
+- If a file grows too large, extract:
+  - hooks for data logic
+  - presentational subcomponents for JSX blocks
+  - helper functions for mapping/formatting
+
+## Component Rules
+
+- One component = one clear responsibility.
+- Avoid inline complex logic in JSX.
+- Extract conditional UI branches to helper render functions or child components.
+- Keep props typed and explicit; no implicit `any`.
+
+## Hook Rules
+
+- Hooks must be pure and deterministic by input.
+- Do not hide unrelated side effects inside query hooks.
+- Return stable shape (`data`, `isLoading`, `isError`, `error`, `mutate`/`mutateAsync`).
+
+## TypeScript Rules
+
+- No `any` unless there is a hard blocker; prefer `unknown` + narrowing.
+- Prefer explicit return types for exported functions.
+- Keep nullable fields explicit (`T | null`).
+- Use discriminated unions for complex UI states where appropriate.
+
+## Styling Rules
+
+- Follow Tailwind v4 token usage from `core/styles/index.css`.
+- Avoid hardcoded magic colors/sizes if design tokens exist.
+- Do not combine conflicting utility classes without `twMerge` in reusable components.
+
+## Commenting and Readability
+
+- Write comments only for non-obvious decisions.
+- Do not comment obvious code.
+- Keep function names descriptive enough to reduce comment needs.
+
+## Error and UX States
+
+- Query-driven UI must handle:
+  - loading
+  - error
+  - empty
+  - success
+- Mutation actions should provide clear user feedback (toast/inline state).
+
+## Testing Expectations (Lightweight)
+
+- For new feature logic:
+  - add at least basic tests for critical hooks/helpers when practical.
+- For bug fixes:
+  - add regression tests for the fixed path when feasible.
+
+## PR Readiness Checklist
+
+- [ ] No `any` regressions introduced.
+- [ ] Imports cleaned and ordered.
+- [ ] Page files remain orchestration-focused.
+- [ ] Hook/client/contracts boundaries are respected.
+- [ ] UI loading/error/empty states are present.
