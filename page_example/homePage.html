@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#000000",
+                        "background-light": "#f7f7f7",
+                        "background-dark": "#191919",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<title>Monochrome Travels | Explore the World</title>
+<style>
+        .snap-container {
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
+            height: 100vh;
+        }
+        .snap-section {
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .nav-link.active {
+            text-decoration: underline;
+            text-underline-offset: 8px;
+            text-decoration-thickness: 2px;
+        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-primary transition-colors duration-300 overflow-hidden">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 z-50 w-full bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-primary/10 px-6 lg:px-20 py-4">
+<nav class="max-w-7xl mx-auto flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="bg-primary text-white p-1.5 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-2xl">grid_view</span>
+</div>
+<h1 class="text-xl font-extrabold tracking-tighter uppercase dark:text-slate-100">Voyage Noir</h1>
+</div>
+<div class="hidden md:flex items-center gap-10">
+<a class="nav-link text-sm font-semibold hover:opacity-60 transition-opacity dark:text-slate-100 active" href="#hero">Homepage</a>
+<a class="nav-link text-sm font-semibold hover:opacity-60 transition-opacity dark:text-slate-100" href="#destinations">Destinations</a>
+<a class="nav-link text-sm font-semibold hover:opacity-60 transition-opacity dark:text-slate-100" href="#landmarks">Landmarks</a>
+<a class="nav-link text-sm font-semibold hover:opacity-60 transition-opacity dark:text-slate-100" href="#footer">About</a>
+</div>
+<div class="relative flex items-center gap-4" x-data="{ open: false }">
+<!-- Avatar Trigger -->
+<button class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white hover:opacity-80 transition-opacity focus:outline-none" onclick="document.getElementById('user-dropdown').classList.toggle('hidden')">
+<span class="material-symbols-outlined">person</span>
+</button>
+<!-- Dropdown Menu -->
+<div class="hidden absolute right-0 top-full mt-2 w-48 bg-white dark:bg-slate-900 border border-primary/10 shadow-xl rounded-lg py-2 z-[100] transition-all" id="user-dropdown">
+<a class="block px-4 py-2 text-sm font-semibold hover:bg-primary/5 dark:text-slate-200 dark:hover:bg-slate-800 transition-colors" href="#">My Trip</a>
+<a class="block px-4 py-2 text-sm font-semibold hover:bg-primary/5 dark:text-slate-200 dark:hover:bg-slate-800 transition-colors" href="#">User Profile</a>
+<a class="block px-4 py-2 text-sm font-semibold hover:bg-primary/5 dark:text-slate-200 dark:hover:bg-slate-800 transition-colors" href="#">Account Setting</a>
+<div class="my-1 border-t border-primary/5"></div>
+<a class="block px-4 py-2 text-sm font-bold text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors" href="#">Log out</a>
+</div>
+</div>
+</nav>
+</header>
+<main class="snap-container" id="main-content">
+<!-- Hero Section -->
+<section class="snap-section px-6 lg:px-20 bg-background-light dark:bg-background-dark" id="hero">
+<div class="max-w-7xl mx-auto w-full text-center reveal">
+<h2 class="text-5xl lg:text-7xl font-black mb-6 tracking-tight dark:text-slate-100">Explore the World in <br/><span class="text-primary/40 dark:text-slate-500 underline decoration-1 underline-offset-8">Monochrome</span></h2>
+<p class="text-lg text-primary/60 dark:text-slate-400 max-w-2xl mx-auto mb-12">Curated premium destinations with a minimalist aesthetic for the modern traveler.</p>
+<div class="w-full max-w-3xl mx-auto space-y-8">
+<!-- Search Bar -->
+<div class="relative group">
+<div class="absolute inset-y-0 left-5 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-primary/40 dark:text-slate-500">search</span>
+</div>
+<input class="w-full h-16 pl-14 pr-32 bg-white dark:bg-slate-800 border-2 border-primary/5 focus:border-primary dark:focus:border-slate-100 rounded-xl shadow-sm text-lg outline-none transition-all dark:text-slate-100" placeholder="Where do you want to wander?" type="text"/>
+<button class="absolute right-2 top-2 bottom-2 px-8 bg-primary text-white font-bold rounded-lg hover:opacity-90 transition-opacity">
+                        Search
+                    </button>
+</div>
+<!-- Hero Actions -->
+<div class="flex flex-wrap justify-center gap-4">
+<button class="flex items-center gap-2 px-10 h-14 bg-primary text-white rounded-lg font-bold hover:scale-[1.02] transition-transform active:scale-95 shadow-lg">
+<span class="material-symbols-outlined text-xl">add_location_alt</span>
+                        Create Trip
+                    </button>
+<button class="flex items-center gap-2 px-10 h-14 border border-primary/20 bg-white dark:bg-slate-800 dark:text-slate-100 rounded-lg font-bold hover:bg-primary/5 transition-colors active:scale-95">
+<span class="material-symbols-outlined text-xl">smart_toy</span>
+                        Chatbot AI
+                    </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Top Destinations Section -->
+<section class="snap-section px-6 lg:px-20 border-t border-primary/10 bg-background-light dark:bg-background-dark" id="destinations">
+<div class="max-w-7xl mx-auto w-full reveal">
+<div class="flex justify-between items-end mb-10">
+<div>
+<h3 class="text-3xl font-extrabold dark:text-slate-100">Top Destinations</h3>
+<p class="text-primary/50 dark:text-slate-500">The most sought-after black &amp; white escapes</p>
+</div>
+<a class="text-sm font-bold underline underline-offset-4 dark:text-slate-300" href="#">View All</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Card 1 -->
+<div class="group cursor-pointer">
+<div class="aspect-[4/5] overflow-hidden rounded-xl bg-primary/5 mb-4 relative">
+<img class="w-full h-full object-cover grayscale hover:scale-110 transition-transform duration-700" data-alt="Black and white architecture of a modern city street" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdKN1G5cmUrfAhmL7-gzV_fz9hVdmk0hvczSOYAcAgruXary5148CzdEtZcTOhZF3VCkxoMp-SQ0LCnLQdX1SME9TnZ6xAiSTj3vZN9bmRJ9ST2OVYVpvYa_cwSHToSCwchxQC85sQaiO25lwvK1UvsX3QP2kCBb0pFOlOBg-DVYDlzxUf4n4z-BptEjuKwE1XDHA4NOeeOUVAVVuJY5nMI0YrGalL7MiYANjfYoPS5L7wZQ2KPgw4P5u8xLxAx_uFsSJsw08j_-o"/>
+<div class="absolute top-4 right-4 px-3 py-1 bg-white/90 backdrop-blur rounded-full text-xs font-bold uppercase tracking-widest text-primary">Luxury</div>
+</div>
+<h4 class="text-xl font-bold dark:text-slate-100">Tokyo Noir</h4>
+<p class="text-primary/60 dark:text-slate-400">Minimalist urban landscapes and neon nights.</p>
+</div>
+<!-- Card 2 -->
+<div class="group cursor-pointer">
+<div class="aspect-[4/5] overflow-hidden rounded-xl bg-primary/5 mb-4 relative">
+<img class="w-full h-full object-cover grayscale hover:scale-110 transition-transform duration-700" data-alt="High contrast mountain peaks in black and white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOydS_K73zdD8c2DKTZqoZve9Dtd8i5fcgHR9tozxOGel1npnwZTzuM_ghceWcR4XV6E9NdnrwCA0stYvUdD-vgXEogrTks5DFmZj2Fv0q0CossAQ37MEMidNzfUt6eW28WyC7jPiFQnzDhdxYFQgOmkfTMOtIQKeqKv7XKDTHm6EoABmwCItGXhv4jNyy9C0nH1xUulrZbH6zkSIoGCyVnvtI6yNTtiIZvKh0HG_bGPIarUrXC-vhM3IhIkjtosn9YU1gScNFl68"/>
+<div class="absolute top-4 right-4 px-3 py-1 bg-white/90 backdrop-blur rounded-full text-xs font-bold uppercase tracking-widest text-primary">Nature</div>
+</div>
+<h4 class="text-xl font-bold dark:text-slate-100">Iceland Peaks</h4>
+<p class="text-primary/60 dark:text-slate-400">Volcanic sands and dramatic glacier vistas.</p>
+</div>
+<!-- Card 3 -->
+<div class="group cursor-pointer">
+<div class="aspect-[4/5] overflow-hidden rounded-xl bg-primary/5 mb-4 relative">
+<img class="w-full h-full object-cover grayscale hover:scale-110 transition-transform duration-700" data-alt="The Eiffel Tower in artistic black and white photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4OzIPnlaQkg4lQpck9MgiLeOj0tooBuNuGua3SN7z_dhj9BEqW-T2lvudLree9PkRrzoZFvg-0jh4WMEFXIrAH8LrkXWcoS49mm7gpHiEjlkM7GxFwxq6ST5enpmJWDgBaW5_1g9k9qRAzmfOuRLw_Fx8_BD06-qvS9UiFRbxWxtE94JiI_ch61_37P78o67E99LYk3t8XIc_QciJzu4rV3AEYZUqadbHXb1yDjYjVdHY_f7c45p12pf8Qua-J1t7fVzlFRdFi7E"/>
+<div class="absolute top-4 right-4 px-3 py-1 bg-white/90 backdrop-blur rounded-full text-xs font-bold uppercase tracking-widest text-primary">Classic</div>
+</div>
+<h4 class="text-xl font-bold dark:text-slate-100">Paris Mon Amour</h4>
+<p class="text-primary/60 dark:text-slate-400">Timeless elegance in every cobblestone street.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Iconic Landmarks Section -->
+<section class="snap-section px-6 lg:px-20 border-t border-primary/10 bg-background-light dark:bg-background-dark" id="landmarks">
+<div class="max-w-7xl mx-auto w-full reveal">
+<div class="flex justify-between items-end mb-10">
+<div>
+<h3 class="text-3xl font-extrabold dark:text-slate-100">Iconic Landmarks</h3>
+<p class="text-primary/50 dark:text-slate-500">Stunning architectural marvels around the globe</p>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+<div class="flex gap-6 items-center p-6 border border-primary/5 rounded-2xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm hover:bg-white dark:hover:bg-slate-800 transition-colors">
+<div class="w-32 h-32 flex-shrink-0 rounded-lg overflow-hidden">
+<img class="w-full h-full object-cover grayscale" data-alt="Black and white closeup of architectural details" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwYjrOZG2RU1VtOEcrzLJHB8J3S3GQhGOjAOeQwVeP9dKW7ucOCxwY4UnGL3pF1MPi-ZOWUYTEYuxsxypkF5YAKKwoUIjSPC5nOW5PVDQ4teHGtHRiB1hkr1xI5nJO60BBN2NRmLnWbYmuV2mhF6Ow930qTwpbvv_5xbWaCIwA2W2t_JBWznoS9OkoMuMzhVmuKjYXC14dKo5AN4aTfj91EK1G1S6xThD3wf1FfCWqYh1RWAaXEDC0qs9Fr2IoAFZNhViOGSQsjcg"/>
+</div>
+<div>
+<div class="flex gap-1 mb-1">
+<span class="material-symbols-outlined text-xs text-primary dark:text-slate-300">star</span>
+<span class="material-symbols-outlined text-xs text-primary dark:text-slate-300">star</span>
+<span class="material-symbols-outlined text-xs text-primary dark:text-slate-300">star</span>
+<span class="material-symbols-outlined text-xs text-primary dark:text-slate-300">star</span>
+<span class="material-symbols-outlined text-xs text-primary/20 dark:text-slate-600">star</span>
+</div>
+<h5 class="text-lg font-bold dark:text-slate-100">The Modern Atrium</h5>
+<p class="text-sm text-primary/60 dark:text-slate-400 mb-2">London, UK • Museum</p>
+<button class="text-xs font-extrabold uppercase tracking-widest border-b border-primary/20 pb-0.5 hover:border-primary transition-colors dark:text-slate-300">View Details</button>
+</div>
+</div>
+<div class="flex gap-6 items-center p-6 border border-primary/5 rounded-2xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm hover:bg-white dark:hover:bg-slate-800 transition-colors">
+<div class="w-32 h-32 flex-shrink-0 rounded-lg overflow-hidden">
+<img class="w-full h-full object-cover grayscale" data-alt="Minimalist landscape of a desert scene in BW" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAoiToMGatZLSTviDFaTPQQQdBI9L5h-lTZnhXLKkK6L3TrLf_o7KGfkkyyDObVOWbwOU73nKT7z61cIGj-oUXsFS63_obTcvOPqOaaZOwrDBjrO-lSVE9qyX-F3JKXD0J2nNdQBfUntCwhTMVBeGYEJAoB2QmklEsbEoZQzPSBs6aslviX7OuEt69LVGUgL--A1LvlUsMbvRZPfH8iLDXCz3MkEMcxZFXNYh9tbdxa2MY8fndZJ1sIjuA6OcfukYm8YywbN8InIwQ"/>
+</div>
+<div>
+<div class="flex gap-1 mb-1">
+<span class="material-symbols-outlined text-xs text-primary dark:text-slate-300">star</span>
+<span class="material-symbols-outlined text-xs text-primary dark:text-slate-300">star</span>
+<span class="material-symbols-outlined text-xs text-primary dark:text-slate-300">star</span>
+<span class="material-symbols-outlined text-xs text-primary dark:text-slate-300">star</span>
+<span class="material-symbols-outlined text-xs text-primary dark:text-slate-300">star</span>
+</div>
+<h5 class="text-lg font-bold dark:text-slate-100">Dune Oasis</h5>
+<p class="text-sm text-primary/60 dark:text-slate-400 mb-2">Dubai, UAE • Retreat</p>
+<button class="text-xs font-extrabold uppercase tracking-widest border-b border-primary/20 pb-0.5 hover:border-primary transition-colors dark:text-slate-300">View Details</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="snap-section bg-primary text-white px-6 lg:px-20 pt-20" id="footer">
+<div class="max-w-7xl mx-auto w-full reveal">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+<div class="space-y-6">
+<div class="flex items-center gap-3">
+<div class="bg-white text-primary p-1 rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-xl">grid_view</span>
+</div>
+<h1 class="text-xl font-extrabold tracking-tighter uppercase">Voyage Noir</h1>
+</div>
+<p class="text-white/60 text-sm leading-relaxed">Defining luxury travel through a minimalist lens. Experience the world's most beautiful destinations in high contrast.</p>
+</div>
+<div>
+<h6 class="font-bold mb-6 text-sm uppercase tracking-widest">Company</h6>
+<ul class="space-y-4 text-white/60 text-sm">
+<li><a class="hover:text-white transition-colors" href="#">About Us</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Press Center</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Careers</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Contact</a></li>
+</ul>
+</div>
+<div>
+<h6 class="font-bold mb-6 text-sm uppercase tracking-widest">Support</h6>
+<ul class="space-y-4 text-white/60 text-sm">
+<li><a class="hover:text-white transition-colors" href="#">Help Center</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Terms of Service</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Cookie Policy</a></li>
+</ul>
+</div>
+<div>
+<h6 class="font-bold mb-6 text-sm uppercase tracking-widest">Connect</h6>
+<div class="flex gap-4 mb-6">
+<a class="size-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined text-lg">share</span>
+</a>
+<a class="size-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined text-lg">mail</span>
+</a>
+<a class="size-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-primary transition-all" href="#">
+<span class="material-symbols-outlined text-lg">language</span>
+</a>
+</div>
+<div class="flex">
+<input class="bg-white/10 border-none rounded-l h-10 px-4 text-sm w-full outline-none" placeholder="Email" type="email"/>
+<button class="bg-white text-primary px-4 rounded-r font-bold text-sm">Join</button>
+</div>
+</div>
+</div>
+<div class="border-t border-white/10 pt-10 pb-10 flex flex-col md:flex-row justify-between items-center gap-6">
+<p class="text-white/40 text-xs">© 2024 Voyage Noir. All rights reserved.</p>
+<div class="flex gap-8">
+<span class="material-symbols-outlined text-white/20">credit_card</span>
+<span class="material-symbols-outlined text-white/20">lock</span>
+<span class="material-symbols-outlined text-white/20">verified_user</span>
+</div>
+</div>
+</div>
+</footer>
+</main>
+<script>
+    const container = document.getElementById('main-content');
+    const sections = document.querySelectorAll('.snap-section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const revealElements = document.querySelectorAll('.reveal');
+
+    // Observer for reveal animations
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            } else {
+                // Keep it active if we want it to only reveal once, or remove to re-animate
+                // entry.target.classList.remove('active'); 
+            }
+        });
+    }, { threshold: 0.2 });
+
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // Observer for Active Navigation Links
+    const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${id}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { 
+        root: container,
+        threshold: 0.5 
+    });
+
+    sections.forEach(section => sectionObserver.observe(section));
+
+    // Handle clicks on nav links for smooth scroll to section
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+            targetSection.scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+</script>
+<script>
+    window.addEventListener('click', function(e) {
+        const dropdown = document.getElementById('user-dropdown');
+        const trigger = dropdown ? dropdown.previousElementSibling : null;
+        if (dropdown && !dropdown.contains(e.target) && !trigger.contains(e.target)) {
+            dropdown.classList.add('hidden');
+        }
+    });
+</script></body></html>

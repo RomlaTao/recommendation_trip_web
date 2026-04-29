@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#000000",
+                        "background-light": "#f7f7f7",
+                        "background-dark": "#191919",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<title>Voyage Noir | Le Meurice</title>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<!-- Top Navigation -->
+<header class="sticky top-0 z-50 bg-white/80 dark:bg-black/80 backdrop-blur-md border-b border-primary/10 px-6 lg:px-40 py-4">
+<div class="max-w-[1200px] mx-auto flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="bg-primary text-white p-1 rounded">
+<span class="material-symbols-outlined text-2xl">travel_explore</span>
+</div>
+<h1 class="text-xl font-extrabold tracking-tighter uppercase">Voyage Noir</h1>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-bold uppercase tracking-widest border-b-2 border-primary" href="#">Explore</a>
+<a class="text-sm font-bold uppercase tracking-widest text-slate-500 hover:text-primary transition-colors" href="#">Trips</a>
+<a class="text-sm font-bold uppercase tracking-widest text-slate-500 hover:text-primary transition-colors" href="#">Favorites</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="p-2 hover:bg-primary/5 rounded-full transition-colors">
+<span class="material-symbols-outlined">search</span>
+</button>
+<div class="size-10 rounded-full border border-primary/20 bg-cover bg-center" data-alt="User profile picture monochrome portrait" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAJnXb3acNqEOsbnJPeWazs-BjXvRfEHN1KILGLiuRbzroK_GhiByyan1Mau4A6DcI_8MGn1kGDkVgEp9ZCzkP92krO5upluejAjjTz1EziTWGlnermMrK6iWPCahWbS9VtqONyXoEgDfRE4k-G8cb0zQLcvcIFZQWUoP2XAKQEXdyBcJZ8Y1WYhb4BAlerxbbqjN3Y5bX9FUsMR0YfG2MSnEX2NwjlbITEQIOMOOEBQHCVyt_m1H6z_SeQebX9cGOVX-sQQCl5Th8')">
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-[1200px] mx-auto px-6 lg:px-10 py-8">
+<!-- Hero Section -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+<div class="lg:col-span-8">
+<div class="relative group aspect-[16/9] w-full overflow-hidden rounded-xl bg-slate-200">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105 grayscale hover:grayscale-0" data-alt="Black and white wide shot of Le Meurice hotel entrance in Paris" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDkkBNIvC2hXO3MhRnngTQn4mmvyzWqinyJYQkQnbnqkpyCkM4eLVso22DoHfcvQke1PPEPUSvPV_YYiZuCPtQ4WRVi4773KsZZvhhTlftbmFPPD6Jvo8193SE1IE3IQfjpIfIytBahZQWbc_qemt7704iKRHrvknKpi7SaEiWVz88XTv8nlP4gYbI3NIaUNWeNIkh-8lyyXRWGM9ykmInaTsD7xO6JZUnOdNPjpOsaVbq7H0JYgJEkj4Ap47-B6_lbW6funGotLzY')">
+</div>
+<div class="absolute bottom-6 right-6 flex gap-2">
+<button class="bg-white/90 backdrop-blur p-3 rounded-full shadow-xl hover:bg-white transition-colors">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1">favorite</span>
+</button>
+<button class="bg-white/90 backdrop-blur p-3 rounded-full shadow-xl hover:bg-white transition-colors">
+<span class="material-symbols-outlined text-primary">share</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Place Header & CTA -->
+<div class="lg:col-span-4 flex flex-col justify-between py-2">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary text-sm">location_on</span>
+<p class="text-sm font-bold uppercase tracking-widest text-slate-500">Paris, France</p>
+</div>
+<h2 class="text-5xl font-black leading-tight mb-4 tracking-tighter">Le Meurice</h2>
+<div class="flex items-center gap-4 mb-6">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-lg" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="font-bold text-xl">4.8</span>
+</div>
+<span class="text-slate-400">|</span>
+<span class="text-slate-500 font-medium">1,240 Reviews</span>
+</div>
+<p class="text-slate-600 dark:text-slate-400 leading-relaxed text-lg mb-8">
+                        The first Parisian Palace hotel, located in the heart of historic Paris. A quiet retreat where 18th-century opulence meets modern chic.
+                    </p>
+</div>
+<div class="flex flex-col gap-3">
+<button class="w-full bg-primary text-white py-4 rounded-xl font-bold text-lg uppercase tracking-widest hover:opacity-90 transition-opacity flex items-center justify-center gap-3">
+<span class="material-symbols-outlined">add_circle</span>
+                        Add to Trip
+                    </button>
+<div class="grid grid-cols-2 gap-3">
+<button class="border-2 border-primary/10 py-3 rounded-xl font-bold text-sm uppercase tracking-widest hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg">star</span>
+                            Favorite
+                        </button>
+<button class="border-2 border-primary/10 py-3 rounded-xl font-bold text-sm uppercase tracking-widest hover:bg-primary hover:text-white transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-lg">chat_bubble</span>
+                            Review
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Details Grid -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+<!-- Left: Reviews and Description -->
+<div class="lg:col-span-2">
+<h3 class="text-2xl font-black uppercase tracking-tight mb-8 border-b-4 border-primary inline-block">Experience</h3>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+<div class="bg-white dark:bg-primary/20 p-6 rounded-xl border border-primary/5 text-center">
+<span class="material-symbols-outlined text-3xl mb-2">wifi</span>
+<p class="text-xs font-bold uppercase">Free WiFi</p>
+</div>
+<div class="bg-white dark:bg-primary/20 p-6 rounded-xl border border-primary/5 text-center">
+<span class="material-symbols-outlined text-3xl mb-2">restaurant</span>
+<p class="text-xs font-bold uppercase">Michelin Star</p>
+</div>
+<div class="bg-white dark:bg-primary/20 p-6 rounded-xl border border-primary/5 text-center">
+<span class="material-symbols-outlined text-3xl mb-2">spa</span>
+<p class="text-xs font-bold uppercase">Luxury Spa</p>
+</div>
+<div class="bg-white dark:bg-primary/20 p-6 rounded-xl border border-primary/5 text-center">
+<span class="material-symbols-outlined text-3xl mb-2">local_bar</span>
+<p class="text-xs font-bold uppercase">Classic Bar</p>
+</div>
+</div>
+<!-- Reviews Section -->
+<div class="space-y-8">
+<div class="flex justify-between items-end">
+<h3 class="text-2xl font-black uppercase tracking-tight">Guest Reviews</h3>
+<button class="text-sm font-bold border-b border-primary">View all</button>
+</div>
+<div class="space-y-6">
+<!-- Review Item 1 -->
+<div class="p-6 bg-white dark:bg-primary/10 rounded-2xl border border-primary/5">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<div class="size-12 rounded-full bg-cover bg-center grayscale" data-alt="Monochrome portrait of a smiling woman" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAN_i1z8d0qz7Riydzw86dcmkHU9FgWEkXTkX3yJkTMFQXJ8lxU-cZbB2UU2QMgmDwa2zBtiOcNYBCXFwtwl4yY62rwRwr2KYugeRjR6P2pWgcySMbAuAZJaDhG4P7IMc5ZGY0tWpYopv-OgBzlyMpyYFHHpAS9f7RHgYnqH7iKTU0xFkx839aBP0KAteVDHWW4ugsD8Tw4IknIG-8S__4lgGcrsbHT9lSEBu9GOU53oKqnEiutMnH9KH86-ZJ03iEoQjOa3lcCo9E')"></div>
+<div>
+<p class="font-bold">Elena Vance</p>
+<p class="text-xs text-slate-500">Stayed Oct 2023</p>
+</div>
+</div>
+<div class="flex gap-0.5">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+</div>
+</div>
+<p class="text-slate-600 dark:text-slate-400 italic">"An absolute masterpiece of hospitality. The Dalí-inspired decor in the restaurant is breathtaking. Every detail at Le Meurice is curated to perfection."</p>
+</div>
+<!-- Review Item 2 -->
+<div class="p-6 bg-white dark:bg-primary/10 rounded-2xl border border-primary/5">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<div class="size-12 rounded-full bg-cover bg-center grayscale" data-alt="Monochrome portrait of a man with glasses" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBHRdpt_zL0ZZ38Cdlg2ewMGPMAQ8JCyHvzjDkOtM9QqTE3-5qXEbj6PDOyZnJF4EAqIkd32vsgJnBE3UnpDcCqsszgTSWatEI9y54Xu9R_uZgrvKRLL3TBbUu_6WVa6UrpdQmkynhXrBmFlo_8TroCmFfhd9CSikYWWpKzk5M53yDFfF8_oshESZMxtfItQw8rra6xuVTw95pJl0OkzXCDgfbz_ywXAp2v1cIBggvpFeE2QDv11SVfNSZQwKPiYgqglmlWxoYSwqQ')"></div>
+<div>
+<p class="font-bold">Julian Black</p>
+<p class="text-xs text-slate-500">Stayed Sept 2023</p>
+</div>
+</div>
+<div class="flex gap-0.5">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 0">star</span>
+</div>
+</div>
+<p class="text-slate-600 dark:text-slate-400 italic">"Unbeatable location right next to the Tuileries. The service is impeccable. A bit pricey, but worth every cent for the experience."</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right: Map & Stats -->
+<div class="space-y-8">
+<div>
+<h3 class="text-xl font-black uppercase tracking-tight mb-6">Location</h3>
+<div class="relative w-full aspect-square rounded-xl overflow-hidden bg-slate-200 border border-primary/10">
+<div class="absolute inset-0 grayscale contrast-125" data-alt="Stylized black and white street map of Paris center" data-location="Paris, France" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuABOKX2Jmr1VkYq0f38SK76yZQNgTuTurco_xCiKXNJF-I9lLGzV2Attarc50TQg6tVIngzhvFKuujKrkxBlwSvFmlPBtDK1zkbFBj4Mn6m8KUyIfat0OMZ7827uBnhvZrfrEq1Ac5sNVvPJgrEjlnTuop0_jh_OrLoURB-uaKOZmn_bgZXVnydNMcYu-p9OS9Al3nJ7BqPcdBdCS1pY7uzNY_lpj30jEdTr_pqVErGDc5j2bwKew27pZy53_zrgOKjjdm7uk2JKqA')">
+</div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="relative">
+<div class="size-8 bg-primary rounded-full animate-ping absolute opacity-25"></div>
+<div class="size-8 bg-primary rounded-full flex items-center justify-center relative shadow-2xl">
+<span class="material-symbols-outlined text-white text-base">near_me</span>
+</div>
+</div>
+</div>
+<div class="absolute bottom-4 left-4 right-4 bg-white p-4 rounded-lg shadow-xl">
+<p class="text-xs font-bold uppercase text-slate-400 mb-1">Address</p>
+<p class="text-sm font-bold">228 Rue de Rivoli, 75001 Paris</p>
+</div>
+</div>
+</div>
+<div class="p-8 bg-primary text-white rounded-xl">
+<h4 class="text-lg font-black uppercase mb-4">Voyage Insight</h4>
+<p class="text-white/70 text-sm leading-relaxed mb-6">
+                        Best visited during sunset for the views across the Tuileries Garden. Book the afternoon tea at Le Dalí at least 2 weeks in advance.
+                    </p>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span class="text-xs font-bold uppercase tracking-widest">Peak hours: 4PM - 7PM</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="mt-20 border-t border-primary/10 bg-white dark:bg-black py-16 px-6">
+<div class="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
+<div class="md:col-span-2">
+<div class="flex items-center gap-3 mb-6">
+<div class="bg-primary text-white p-1 rounded">
+<span class="material-symbols-outlined text-xl">travel_explore</span>
+</div>
+<h1 class="text-lg font-extrabold tracking-tighter uppercase">Voyage Noir</h1>
+</div>
+<p class="text-slate-500 max-w-sm mb-6">Curating the world's most exquisite travel experiences through a monochrome lens of sophistication and elegance.</p>
+<div class="flex gap-4">
+<div class="size-10 border border-primary/20 rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-sm">public</span>
+</div>
+<div class="size-10 border border-primary/20 rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-sm">photo_camera</span>
+</div>
+</div>
+</div>
+<div>
+<h4 class="font-bold uppercase tracking-widest mb-6">Explore</h4>
+<ul class="space-y-4 text-slate-500 text-sm">
+<li><a class="hover:text-primary" href="#">Destinations</a></li>
+<li><a class="hover:text-primary" href="#">Curated Trips</a></li>
+<li><a class="hover:text-primary" href="#">Black Card Membership</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold uppercase tracking-widest mb-6">Support</h4>
+<ul class="space-y-4 text-slate-500 text-sm">
+<li><a class="hover:text-primary" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-primary" href="#">Terms of Service</a></li>
+<li><a class="hover:text-primary" href="#">Contact Noir</a></li>
+</ul>
+</div>
+</div>
+<div class="max-w-[1200px] mx-auto mt-16 pt-8 border-t border-primary/5 flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">
+<span>© 2024 Voyage Noir. All Rights Reserved.</span>
+<span>Paris / London / New York</span>
+</div>
+</footer>
+</body></html>
