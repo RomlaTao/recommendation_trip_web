@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Voyage Noir Admin - Place Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-panel {
+            background: rgba(249, 249, 249, 0.8);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "background": "#f9f9f9",
+                "on-background": "#1b1b1b",
+                "secondary-container": "#d6d4d3",
+                "on-surface-variant": "#474747",
+                "on-tertiary-fixed": "#ffffff",
+                "primary-fixed-dim": "#474747",
+                "primary": "#000000",
+                "primary-fixed": "#5e5e5e",
+                "on-primary-fixed-variant": "#e2e2e2",
+                "secondary": "#5f5e5e",
+                "surface-container-highest": "#e2e2e2",
+                "on-error": "#ffffff",
+                "on-surface": "#1b1b1b",
+                "inverse-surface": "#303030",
+                "secondary-fixed-dim": "#adabaa",
+                "outline-variant": "#c6c6c6",
+                "on-primary-container": "#ffffff",
+                "tertiary-fixed-dim": "#474747",
+                "on-tertiary": "#e2e2e2",
+                "tertiary-container": "#747474",
+                "on-error-container": "#410002",
+                "tertiary": "#3b3b3b",
+                "surface-dim": "#dadada",
+                "primary-container": "#3b3b3b",
+                "tertiary-fixed": "#5e5e5e",
+                "error-container": "#ffdad6",
+                "on-primary-fixed": "#ffffff",
+                "surface-container-lowest": "#ffffff",
+                "on-secondary-fixed": "#1b1c1c",
+                "on-secondary": "#ffffff",
+                "on-secondary-container": "#1b1c1c",
+                "on-tertiary-fixed-variant": "#e2e2e2",
+                "outline": "#777777",
+                "inverse-on-surface": "#f1f1f1",
+                "surface-variant": "#e2e2e2",
+                "surface-container": "#eeeeee",
+                "surface": "#f9f9f9",
+                "surface-container-low": "#f3f3f3",
+                "on-primary": "#e2e2e2",
+                "surface-container-high": "#e8e8e8",
+                "surface-bright": "#f9f9f9",
+                "on-secondary-fixed-variant": "#3c3b3b",
+                "surface-tint": "#5e5e5e",
+                "on-tertiary-container": "#ffffff",
+                "error": "#ba1a1a",
+                "secondary-fixed": "#c8c6c5",
+                "inverse-primary": "#c6c6c6"
+              },
+              fontFamily: {
+                "headline": ["Plus Jakarta Sans"],
+                "body": ["Plus Jakarta Sans"],
+                "label": ["Plus Jakarta Sans"]
+              },
+              borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface antialiased overflow-x-hidden">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-[#f3f3f3] dark:bg-neutral-900 flex flex-col py-6 px-4 z-50 font-['Plus_Jakarta_Sans'] text-sm tracking-tight">
+<div class="text-xl font-bold text-black dark:text-white mb-8 px-4">
+            Travel Admin
+            <div class="text-[10px] font-normal text-neutral-500 tracking-widest uppercase mt-1">Management Console</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-neutral-500 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors duration-200 scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-neutral-500 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors duration-200 scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">group</span>
+<span>Users</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-black dark:text-white font-bold bg-white dark:bg-neutral-800 rounded-md scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">map</span>
+<span>Places</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-neutral-500 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors duration-200 scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">rate_review</span>
+<span>Reviews</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-neutral-500 dark:text-neutral-400 hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors duration-200 scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined">history</span>
+<span>Activity Logs</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 px-4 flex items-center gap-3 border-t border-outline-variant/10">
+<img alt="Travel Platform Admin Avatar" class="w-8 h-8 rounded-full bg-surface-container-high" data-alt="portrait of a professional executive in a dark minimal studio setting with soft directional lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUvIwZJeNbAnhKz2vmD8kC5md7g6IYwJ2Sb6g4EVvghvhfOdIce9oAX2sdGf-gLmm4xt1Z6SYEkxLn4JJe8GJ_JHmjjfbM7nDKUYT8GqWt2xdGESmsj1qG8ggCcnFW8h-UwOy_812mK0koRDBFx2-gXQ8g1QiW600kK1y1xsTJRcj689yuPbGI6IzcwUnSsGIXmUUPaPmCbFF_nBJq1sSSH6drkQRXKlTjvCJjbreewAgv9m91vqcVY4BGkq5LL9YCJUR9zWB8ckk"/>
+<div class="flex flex-col">
+<span class="text-xs font-bold">Admin User</span>
+<span class="text-[10px] text-neutral-500">Super Administrator</span>
+</div>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 bg-[#f9f9f9]/80 backdrop-blur-xl flex justify-between items-center px-8 z-40 font-['Plus_Jakarta_Sans'] text-base">
+<div class="flex items-center gap-4 w-96">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 text-lg">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-md py-2 pl-10 pr-4 text-sm focus:ring-1 focus:ring-black placeholder:text-neutral-400" placeholder="Search name or address..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4">
+<button class="relative opacity-80 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute -top-1 -right-1 w-2 h-2 bg-black rounded-full"></span>
+</button>
+<button class="opacity-80 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-64 pt-24 px-8 pb-12 min-h-screen">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+<div>
+<h1 class="text-5xl font-extrabold tracking-tighter text-primary mb-2">Places</h1>
+<p class="text-secondary font-medium label-md uppercase tracking-[0.2em] text-[10px]">Curating the world's finest destinations</p>
+</div>
+<!-- Filters -->
+<div class="flex items-center gap-2 bg-surface-container-low p-1 rounded-lg">
+<button class="px-4 py-2 text-xs font-bold rounded-md bg-white text-black shadow-sm">All</button>
+<button class="px-4 py-2 text-xs font-bold rounded-md text-neutral-500 hover:text-black transition-colors">Pending</button>
+<button class="px-4 py-2 text-xs font-bold rounded-md text-neutral-500 hover:text-black transition-colors">Published</button>
+<button class="px-4 py-2 text-xs font-bold rounded-md text-neutral-500 hover:text-black transition-colors">Rejected</button>
+</div>
+</div>
+<!-- Places Grid (Bento Style) -->
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+<!-- Featured Action Item -->
+<div class="col-span-1 xl:col-span-1 h-full min-h-[300px] bg-primary rounded-xl p-8 flex flex-col justify-between text-white group cursor-pointer hover:bg-neutral-900 transition-colors">
+<div>
+<h2 class="text-3xl font-bold tracking-tight mb-4">Add New Destination</h2>
+<p class="text-on-primary/60 text-sm leading-relaxed max-w-[200px]">Expand the Voyage Noir collection with bespoke locations.</p>
+</div>
+<div class="flex items-center justify-between">
+<div class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">add</span>
+</div>
+<span class="text-[10px] uppercase tracking-widest font-bold opacity-40">Entry Form v2.4</span>
+</div>
+</div>
+<!-- Place Card 1 -->
+<div class="col-span-1 bg-surface-container-lowest rounded-xl overflow-hidden hover:bg-surface-bright transition-colors group">
+<div class="h-48 overflow-hidden relative">
+<img alt="Aman Tokyo Exterior" class="w-full h-full object-cover grayscale group-hover:scale-105 transition-transform duration-700" data-alt="architectural shot of a minimalist concrete hotel building in Tokyo at night with soft interior glowing lights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAR5IbBsBMbJ99q5ofWHAfkxMBijM_WNeTo6GaVVwNV3Ehh5JCB_75pZpShmT8W6SCq9AP29EdnhLxWg7p0ibhBvnOUGnW2fyjzCKd9ONQGq4ARtkGEKtEofX-E1tgCHBF6Lsz4gKZ76mlv4wRDIwpqFdLYiZsnC4Qb-pztNccFp_ULPuR3yayT_5p5lqU5noAG53zorXP3NgazNc8ovbhpXczle1AJn6UFspqkVTZVjuWAda4g6but2GOTx0IVElyP3lvWwo-omA"/>
+<div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tight">Published</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
+<div>
+<span class="text-[10px] text-secondary font-bold uppercase tracking-widest block mb-1">Architecture • Japan</span>
+<h3 class="text-xl font-bold">Aman Tokyo</h3>
+</div>
+<button class="text-neutral-400 hover:text-black transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<p class="text-sm text-secondary line-clamp-2 mb-6 leading-relaxed">A sanctuary at the top of the Otemachi Tower, blending urban dynamism with traditional Japanese aesthetics.</p>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant/10">
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full bg-neutral-200 border-2 border-white"></div>
+<div class="w-6 h-6 rounded-full bg-neutral-400 border-2 border-white"></div>
+</div>
+<div class="flex gap-2">
+<button class="w-8 h-8 rounded bg-surface-container-low flex items-center justify-center hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+<button class="w-8 h-8 rounded bg-surface-container-low flex items-center justify-center hover:bg-error/10 hover:text-error transition-colors">
+<span class="material-symbols-outlined text-sm">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Place Card 2 -->
+<div class="col-span-1 bg-surface-container-lowest rounded-xl overflow-hidden hover:bg-surface-bright transition-colors group">
+<div class="h-48 overflow-hidden relative">
+<img alt="Amangiri Utah" class="w-full h-full object-cover grayscale group-hover:scale-105 transition-transform duration-700" data-alt="monolithic concrete structures integrated into the desert canyons of Utah during twilight with dramatic shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDptLMSEaeOP-8sdyOChFEOGIUw0WZuLjvGpUaqF_VJudyQ_FlOnBzK3qRrtC2IHBq3YizBKB3BmeqxkLWHqFmcdM2diA-ImHGOquw3H4_roj7DN--LW9EEo0UJedFLNNJToqhd3yeb71F9plEuLhUFEGcCmoMZRiCIjUSPiSwLbY88nmxzHv5ibjX3z4yYZkfJqafyExodkLwSCDSQCRQbjQNTtf0suC6SweFEJl7h4pDEYfkCMFo-nPpZXzsT5VFRw-uW7sZFss8"/>
+<div class="absolute top-4 right-4 bg-black text-white px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tight">Pending</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
+<div>
+<span class="text-[10px] text-secondary font-bold uppercase tracking-widest block mb-1">Nature • USA</span>
+<h3 class="text-xl font-bold">Amangiri</h3>
+</div>
+<button class="text-neutral-400 hover:text-black transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<p class="text-sm text-secondary line-clamp-2 mb-6 leading-relaxed">Where the raw landscape of the American Southwest meets modernist architectural perfection.</p>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant/10">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-xs text-neutral-400">schedule</span>
+<span class="text-[10px] text-neutral-400 font-bold uppercase">Awaiting Review</span>
+</div>
+<div class="flex gap-2">
+<button class="w-8 h-8 rounded bg-surface-container-low flex items-center justify-center hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+<button class="w-8 h-8 rounded bg-surface-container-low flex items-center justify-center hover:bg-error/10 hover:text-error transition-colors">
+<span class="material-symbols-outlined text-sm">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Data Table Section (High Density) -->
+<div class="col-span-1 xl:col-span-3 mt-12 bg-surface-container-lowest rounded-xl overflow-hidden">
+<div class="px-8 py-6 border-b border-outline-variant/10 flex justify-between items-center">
+<h3 class="text-lg font-extrabold uppercase tracking-widest text-primary">Place Directory</h3>
+<div class="flex gap-4">
+<span class="text-[10px] font-bold text-neutral-400 uppercase tracking-tighter">Total Entries: 142</span>
+<span class="text-[10px] font-bold text-neutral-400 uppercase tracking-tighter">Selected: 0</span>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-surface-container-high">
+<tr>
+<th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-secondary">Place</th>
+<th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-secondary">Category</th>
+<th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-secondary">Location</th>
+<th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-secondary">Status</th>
+<th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-secondary text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/5">
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-8 py-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container-high rounded overflow-hidden">
+<img alt="Standard High Line" class="w-full h-full object-cover grayscale" data-alt="modern glass hotel building reflecting the city lights at dusk in New York City" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuDvUQdWtAG6s0qGNTylLV5xnSRcEBJoubkkdiJrEIRTyDOFB-FwSyotGbFGM5BKzbNYQ8X4Zy1rnZ8wKDKO8F46nfL-QH9UllwvWG833hBf1B3sB9tTA8rhZN9qZFGAKilBMdfiofb7Ro3Elv1UGtHPIbuKe3SVzCyrTy2f0lz-K5VuRl58wWkacjSAygd_25ugsbkW1Lhw647dfQNHMHER2h1xksNgDs7FgfEXLWbunJRSqJXlP8R0PNMhra0p87xkkCwPEFhZ0"/>
+</div>
+<div>
+<div class="font-bold text-sm">The Standard High Line</div>
+<div class="text-[10px] text-neutral-400">ID: VN-8219</div>
+</div>
+</div>
+</td>
+<td class="px-8 py-6">
+<span class="text-xs font-medium text-secondary">Boutique Hotel</span>
+</td>
+<td class="px-8 py-6">
+<div class="text-xs font-medium">New York, USA</div>
+<div class="text-[10px] text-neutral-400">848 Washington St</div>
+</td>
+<td class="px-8 py-6">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+<span class="text-[10px] font-bold uppercase">Published</span>
+</div>
+</td>
+<td class="px-8 py-6 text-right">
+<div class="flex justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-xs font-bold hover:underline">Review</button>
+<button class="text-xs font-bold hover:underline">Edit</button>
+<button class="text-xs font-bold text-error hover:underline">Delete</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-8 py-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container-high rounded overflow-hidden">
+<img alt="Royal Savoy" class="w-full h-full object-cover grayscale" data-alt="elegant historic hotel facade with classical columns and warm lanterns in Lausanne Switzerland" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCsvbTCjB1HJFB7h81wL1ESELd8dZSZ3YHiiuaboFLNagIIKq7tLHk64h7QlzVkX61RCll0KVDFI_QU1vOaJYCJUccmJvIxzRKkdt_h-FKIXswz8Sz6ixU3UM93l_yQ3t_jHJqEW4BZz6WdvHSkTlEKChY7L2VxYO3yMk8z5i9hOp59mzcXGZpd7T6JTfns5v1wjFVcd-aeTT7vaZL0k18J-FQeAeQWleXUr6hPvR5KmA6UOgc0HKljN6hKS9nBB6eCF7hjxumDCy8"/>
+</div>
+<div>
+<div class="font-bold text-sm">Royal Savoy Hotel</div>
+<div class="text-[10px] text-neutral-400">ID: VN-9102</div>
+</div>
+</div>
+</td>
+<td class="px-8 py-6">
+<span class="text-xs font-medium text-secondary">Luxury Resort</span>
+</td>
+<td class="px-8 py-6">
+<div class="text-xs font-medium">Lausanne, Switzerland</div>
+<div class="text-[10px] text-neutral-400">Ave d'Ouchy 40</div>
+</td>
+<td class="px-8 py-6">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+<span class="text-[10px] font-bold uppercase">Rejected</span>
+</div>
+</td>
+<td class="px-8 py-6 text-right">
+<div class="flex justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="text-xs font-bold hover:underline">Review</button>
+<button class="text-xs font-bold hover:underline">Edit</button>
+<button class="text-xs font-bold text-error hover:underline">Delete</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-8 py-4 bg-surface-container-low flex justify-between items-center">
+<div class="text-[10px] font-bold text-neutral-400 uppercase">Page 1 of 12</div>
+<div class="flex gap-2">
+<button class="p-1 text-neutral-400 hover:text-black disabled:opacity-30" disabled="">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="p-1 text-neutral-400 hover:text-black">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Overlay / Drawer Concept (Update Place Modal) -->
+<div class="fixed inset-0 z-[60] flex justify-end invisible pointer-events-none group-[.modal-open]:visible group-[.modal-open]:pointer-events-auto">
+<div class="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity opacity-0 group-[.modal-open]:opacity-100"></div>
+<div class="relative w-full max-w-xl bg-surface h-full shadow-2xl translate-x-full transition-transform duration-500 ease-in-out group-[.modal-open]:translate-x-0 overflow-y-auto">
+<div class="p-10">
+<div class="flex justify-between items-center mb-12">
+<h2 class="text-3xl font-extrabold tracking-tighter">Update Place</h2>
+<button class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center hover:rotate-90 transition-transform duration-300">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<form class="space-y-10">
+<!-- Image Management -->
+<div class="space-y-4">
+<label class="text-[10px] font-bold uppercase tracking-[0.2em] text-secondary">Imagery</label>
+<div class="grid grid-cols-2 gap-4">
+<div class="aspect-square bg-surface-container-low rounded-lg relative overflow-hidden group/img">
+<img alt="Place Main" class="w-full h-full object-cover grayscale" data-alt="interior view of a luxury minimalist hotel room with floor-to-ceiling windows and monochrome furniture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdXUudnD33W1QhSp1aEdgjPDYo08N6GQy12QE-VPR5fIfjmAnzdIpcydTTrO7BGMOIK93XFb67kAy-7f0AHQdbaBNWoFKjKh5AqlxGGCFFHThCpIS8D_Ua8bB5g_4oKWQIA2Bxj8BUEYFKRTjuf3FHmwKPqNJGLVqZwmCZA4EoTUKdXByWFEhtji7XbndMV28JgH9S5wYHQNgThoKXmiQP1UYb_fVTF-nx7wescrqu0xAbdRARnj16j4txKB5t7XZz5krqUfFNn0k"/>
+<button class="absolute inset-0 bg-black/60 opacity-0 group-hover/img:opacity-100 flex items-center justify-center transition-opacity">
+<span class="text-white text-[10px] font-bold uppercase tracking-widest underline">Remove</span>
+</button>
+</div>
+<button class="aspect-square border-2 border-dashed border-outline-variant/30 rounded-lg flex flex-col items-center justify-center gap-2 hover:border-black transition-colors group/upload" type="button">
+<span class="material-symbols-outlined text-neutral-300 group-hover/upload:text-black transition-colors">add_photo_alternate</span>
+<span class="text-[10px] font-bold uppercase tracking-widest text-neutral-400 group-hover/upload:text-black transition-colors">Upload Image</span>
+</button>
+</div>
+</div>
+<!-- General Info -->
+<div class="space-y-6">
+<div class="space-y-2">
+<label class="text-[10px] font-bold uppercase tracking-[0.2em] text-secondary">Place Name</label>
+<input class="w-full bg-transparent border-b border-outline-variant py-2 focus:border-black focus:ring-0 text-lg font-medium" type="text" value="Aman Tokyo"/>
+</div>
+<div class="grid grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="text-[10px] font-bold uppercase tracking-[0.2em] text-secondary">Category</label>
+<select class="w-full bg-transparent border-b border-outline-variant py-2 focus:border-black focus:ring-0 text-sm">
+<option>Boutique Hotel</option>
+<option>Architecture</option>
+<option>Nature</option>
+<option>Dining</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="text-[10px] font-bold uppercase tracking-[0.2em] text-secondary">Status</label>
+<select class="w-full bg-transparent border-b border-outline-variant py-2 focus:border-black focus:ring-0 text-sm font-bold">
+<option>Published</option>
+<option>Pending</option>
+<option>Rejected</option>
+</select>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-[10px] font-bold uppercase tracking-[0.2em] text-secondary">Address</label>
+<input class="w-full bg-transparent border-b border-outline-variant py-2 focus:border-black focus:ring-0 text-sm" type="text" value="The Otemachi Tower, 1-5-6 Otemachi, Chiyoda-ku"/>
+</div>
+<div class="grid grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="text-[10px] font-bold uppercase tracking-[0.2em] text-secondary">Latitude</label>
+<input class="w-full bg-transparent border-b border-outline-variant py-2 focus:border-black focus:ring-0 text-sm" type="text" value="35.6852"/>
+</div>
+<div class="space-y-2">
+<label class="text-[10px] font-bold uppercase tracking-[0.2em] text-secondary">Longitude</label>
+<input class="w-full bg-transparent border-b border-outline-variant py-2 focus:border-black focus:ring-0 text-sm" type="text" value="139.7633"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-[10px] font-bold uppercase tracking-[0.2em] text-secondary">Description</label>
+<textarea class="w-full bg-transparent border border-outline-variant/30 rounded-lg p-4 focus:border-black focus:ring-0 text-sm leading-relaxed" rows="4">A sanctuary at the top of the Otemachi Tower, Aman Tokyo blends urban dynamism with traditional Japanese aesthetics. Features include basalt stonework, paper shoji screens, and floor-to-ceiling city views.</textarea>
+</div>
+</div>
+<!-- Actions -->
+<div class="pt-10 flex gap-4">
+<button class="flex-1 bg-primary text-white py-4 font-bold uppercase tracking-widest text-[10px] hover:bg-neutral-800 transition-colors" type="submit">Update Destination</button>
+<button class="px-8 border border-outline-variant font-bold uppercase tracking-widest text-[10px] hover:bg-surface-container-low transition-colors" type="button">Cancel</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+<!-- Map Integration Tooltip (Hidden Context) -->
+<div class="fixed bottom-8 right-8 z-40">
+<button class="w-14 h-14 bg-black text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</body></html>

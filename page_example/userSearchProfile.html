@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#000000",
+                        "background-light": "#ffffff",
+                        "background-dark": "#121212",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: "Plus Jakarta Sans", sans-serif;
+        }
+        .monochrome-img {
+            filter: grayscale(100%);
+            transition: filter 0.3s ease;
+        }
+        .monochrome-img:hover {
+            filter: grayscale(0%);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Header -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-slate-200 dark:border-slate-800 px-6 md:px-20 py-4 sticky top-0 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-primary dark:text-white">
+<div class="size-8 flex items-center justify-center bg-primary text-white rounded">
+<span class="material-symbols-outlined !text-xl">architecture</span>
+</div>
+<h2 class="text-xl font-extrabold tracking-tighter uppercase">Monos</h2>
+</div>
+<div class="hidden md:flex flex-col min-w-80">
+<div class="flex w-full items-stretch rounded-lg h-10 border border-slate-200 dark:border-slate-800 overflow-hidden">
+<div class="text-slate-500 flex bg-slate-50 dark:bg-slate-900 items-center justify-center px-3">
+<span class="material-symbols-outlined !text-xl">search</span>
+</div>
+<input class="w-full border-none bg-slate-50 dark:bg-slate-900 focus:ring-0 text-sm font-medium placeholder:text-slate-400" placeholder="Search destination..." value="Paris, France"/>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex size-10 items-center justify-center rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<div class="flex items-center gap-6">
+<button class="text-xs font-black uppercase tracking-widest hover:text-slate-500 transition-colors">Log in</button>
+<button class="bg-primary dark:bg-white text-white dark:text-black px-5 py-2.5 rounded-lg text-xs font-black uppercase tracking-widest hover:opacity-90 transition-opacity italic">Sign up</button>
+</div>
+</div>
+</header>
+<main class="flex-1 px-6 md:px-20 py-8 max-w-7xl mx-auto w-full">
+<!-- Hero Title Area -->
+<div class="mb-10">
+<nav class="flex mb-4 text-xs font-semibold uppercase tracking-widest text-slate-400 gap-2">
+<span>Destinations</span>
+<span>/</span>
+<span class="text-primary dark:text-white">Europe</span>
+</nav>
+<h1 class="text-7xl md:text-9xl font-black uppercase tracking-tighter mb-4">Paris</h1>
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+<p class="max-w-2xl text-lg text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+                        A cinematic exploration of the City of Light. Experience the timeless architecture and cobblestone streets through a refined, high-contrast perspective.
+                    </p>
+<div class="flex gap-2">
+<button class="bg-primary text-white px-6 py-3 rounded-lg font-bold text-sm uppercase tracking-wider flex items-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined !text-lg">map</span>
+                            View Map
+                        </button>
+</div>
+</div>
+</div>
+<!-- Categories Tabs -->
+<div class="mb-10 border-b border-slate-200 dark:border-slate-800">
+<div class="flex gap-8 overflow-x-auto no-scrollbar">
+<button class="border-b-2 border-primary dark:border-white pb-4 px-1 text-sm font-bold uppercase tracking-widest">Hotels</button>
+<button class="border-b-2 border-transparent pb-4 px-1 text-sm font-bold uppercase tracking-widest text-slate-400 hover:text-primary dark:hover:text-white transition-colors">Restaurants</button>
+<button class="border-b-2 border-transparent pb-4 px-1 text-sm font-bold uppercase tracking-widest text-slate-400 hover:text-primary dark:hover:text-white transition-colors">Tourist Attractions</button>
+<button class="border-b-2 border-transparent pb-4 px-1 text-sm font-bold uppercase tracking-widest text-slate-400 hover:text-primary dark:hover:text-white transition-colors">Other</button>
+</div>
+</div>
+<!-- Content Grid: Hotels -->
+<div class="grid grid-cols-1 gap-12">
+<div class="flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<h3 class="text-2xl font-extrabold uppercase tracking-tight">Featured Stays</h3>
+<span class="text-sm font-bold text-slate-400 uppercase tracking-wid-est">12 Results</span>
+</div>
+<!-- Card 1 -->
+<div class="group flex flex-col md:flex-row gap-8 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-2 rounded-xl hover:shadow-2xl transition-all duration-500">
+<div class="md:w-1/3 aspect-[4/3] overflow-hidden rounded-lg relative">
+<img class="w-full h-full object-cover monochrome-img group-hover:scale-105 transition-transform duration-700" data-alt="Luxury hotel room in Paris" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA41J3eaZ5Jq1pJ5hv4Jc_lOHZ3z_qLmr3PN3hfpu-PaDyqXXZnCaEGFCYEtVAYzh_5jyoTw_e0k-crup0eevlcnVXf2wQIPVdb9vRXiCQ6fTPhFGvRJtd0XW5wgjfgvMXbJisLe67Ms3BPjQJR2Y7S6LA9Kj5_APvS8HLk-T4IQpeXdIgn4FbpnVJRs6pQJLNYpZsTfb8ULvxzYF2MgAK5BeZI_DfltdjAcZxTfFuUIUMKr9IXC2nOZDSD9A1NpC-10g2sEX2h1JM"/>
+<div class="absolute top-4 left-4 bg-white/90 dark:bg-black/90 px-3 py-1 rounded text-[10px] font-black uppercase tracking-widest">Luxury</div>
+</div>
+<div class="md:w-2/3 flex flex-col justify-between py-4 pr-6 pl-4 md:pl-0">
+<div>
+<div class="flex justify-between items-start mb-2">
+<h4 class="text-2xl font-bold tracking-tight">Hôtel Plaza Athénée</h4>
+<div class="flex gap-2">
+<button class="size-10 flex items-center justify-center rounded-full border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined !text-xl">favorite</span>
+</button>
+<button class="size-10 flex items-center justify-center rounded-full border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined !text-xl">grade</span>
+</button>
+</div>
+</div>
+<p class="text-slate-500 dark:text-slate-400 leading-relaxed mb-6 max-w-xl">
+                                    Experience the epitome of Parisian luxury on Avenue Montaigne. Iconic red awnings and breathtaking views of the Eiffel Tower from high-contrast monochrome suites.
+                                </p>
+</div>
+<div class="flex items-center justify-between border-t border-slate-100 dark:border-slate-800 pt-6">
+<div class="flex items-center gap-4">
+<span class="text-sm font-bold uppercase tracking-widest text-primary dark:text-white">$1,200 <span class="text-slate-400 font-normal">/ night</span></span>
+</div>
+<button class="bg-primary dark:bg-white text-white dark:text-black px-8 py-3 rounded-lg font-bold text-xs uppercase tracking-widest hover:invert transition-all">
+                                    + Add to Trip
+                                </button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group flex flex-col md:flex-row gap-8 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-2 rounded-xl hover:shadow-2xl transition-all duration-500">
+<div class="md:w-1/3 aspect-[4/3] overflow-hidden rounded-lg relative">
+<img class="w-full h-full object-cover monochrome-img group-hover:scale-105 transition-transform duration-700" data-alt="Classic Parisian facade hotel" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAI-3jQdc52c7Dz8jx8B_Ju0BrNEwEZ-0a0knKng9Ml1o-2MBDb4BVjL3qJJKEAyMt59nmnD0PyY3PMO09EJmLbOml3KtmMByj38Tzasio0naa-xTcKZC7d4iJaUi2HRO8ZOMhvxZ1xnhyYDPJoRQgD4ULBKwLpVwIdUzSc4OAct_tv7yif3DzizPyqcgffRPNus0H4l7uMRhc9p6IKasausbVo9nbHL6wWxS5ihqkJf73cYFkhB_FUF7jxUWDfYW8Xei7c_rh-Jdc"/>
+<div class="absolute top-4 left-4 bg-white/90 dark:bg-black/90 px-3 py-1 rounded text-[10px] font-black uppercase tracking-widest">Boutique</div>
+</div>
+<div class="md:w-2/3 flex flex-col justify-between py-4 pr-6 pl-4 md:pl-0">
+<div>
+<div class="flex justify-between items-start mb-2">
+<h4 class="text-2xl font-bold tracking-tight">Le Meurice</h4>
+<div class="flex gap-2">
+<button class="size-10 flex items-center justify-center rounded-full border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined !text-xl">favorite</span>
+</button>
+<button class="size-10 flex items-center justify-center rounded-full border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined !text-xl">grade</span>
+</button>
+</div>
+</div>
+<p class="text-slate-500 dark:text-slate-400 leading-relaxed mb-6 max-w-xl">
+                                    Where 18th-century splendor meets modern minimalism. Located opposite the Tuileries Garden, this palace hotel offers an artistic sanctuary in the heart of Paris.
+                                </p>
+</div>
+<div class="flex items-center justify-between border-t border-slate-100 dark:border-slate-800 pt-6">
+<div class="flex items-center gap-4">
+<span class="text-sm font-bold uppercase tracking-widest text-primary dark:text-white">$950 <span class="text-slate-400 font-normal">/ night</span></span>
+</div>
+<button class="bg-primary dark:bg-white text-white dark:text-black px-8 py-3 rounded-lg font-bold text-xs uppercase tracking-widest hover:invert transition-all">
+                                    + Add to Trip
+                                </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-slate-50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800 mt-20">
+<div class="max-w-7xl mx-auto px-6 md:px-20 py-16 grid grid-cols-1 md:grid-cols-4 gap-12">
+<div class="col-span-1 md:col-span-1">
+<div class="flex items-center gap-3 text-primary dark:text-white mb-6">
+<div class="size-6 flex items-center justify-center bg-primary text-white rounded">
+<span class="material-symbols-outlined !text-sm">architecture</span>
+</div>
+<h2 class="text-lg font-extrabold tracking-tighter uppercase">Monos</h2>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
+                        Curating the world's most beautiful destinations through a high-contrast lens. 
+                    </p>
+</div>
+<div>
+<h5 class="font-bold uppercase tracking-widest text-xs mb-6">Destinations</h5>
+<ul class="space-y-4 text-sm font-medium text-slate-500 dark:text-slate-400">
+<li><a class="hover:text-primary dark:hover:text-white transition-colors" href="#">Europe</a></li>
+<li><a class="hover:text-primary dark:hover:text-white transition-colors" href="#">Asia</a></li>
+<li><a class="hover:text-primary dark:hover:text-white transition-colors" href="#">Americas</a></li>
+<li><a class="hover:text-primary dark:hover:text-white transition-colors" href="#">Africa</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-bold uppercase tracking-widest text-xs mb-6">Company</h5>
+<ul class="space-y-4 text-sm font-medium text-slate-500 dark:text-slate-400">
+<li><a class="hover:text-primary dark:hover:text-white transition-colors" href="#">About</a></li>
+<li><a class="hover:text-primary dark:hover:text-white transition-colors" href="#">Journal</a></li>
+<li><a class="hover:text-primary dark:hover:text-white transition-colors" href="#">Privacy</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-bold uppercase tracking-widest text-xs mb-6">Newsletter</h5>
+<div class="flex gap-2">
+<input class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded px-3 py-2 text-xs w-full focus:ring-1 focus:ring-primary outline-none" placeholder="Email address" type="text"/>
+<button class="bg-primary text-white px-4 py-2 rounded text-[10px] font-black uppercase tracking-widest">Join</button>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto px-6 md:px-20 py-8 border-t border-slate-200 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
+<span class="text-[10px] font-bold uppercase tracking-widest text-slate-400">© 2024 Monos Travel. All rights reserved.</span>
+<div class="flex gap-6">
+<span class="material-symbols-outlined !text-lg text-slate-400 cursor-pointer hover:text-primary transition-colors">brand_awareness</span>
+<span class="material-symbols-outlined !text-lg text-slate-400 cursor-pointer hover:text-primary transition-colors">public</span>
+<span class="material-symbols-outlined !text-lg text-slate-400 cursor-pointer hover:text-primary transition-colors">share</span>
+</div>
+</div>
+</footer>
+</div>
+</body></html>
