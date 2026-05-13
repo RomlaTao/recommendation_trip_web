@@ -13,11 +13,22 @@ type ApiErrorPayload = {
   message?: string | string[]
 }
 
+/** Matches API refresh payload; kept in core to avoid importing feature contracts. */
+export type RefreshedSessionTokens = {
+  accessToken: string
+  refreshToken: string
+  expiresIn: number
+}
+
 type RefreshResponse = {
-  tokens: {
-    accessToken: string
-    refreshToken: string
-  }
+  tokens: RefreshedSessionTokens
+}
+
+let applyRefreshedSession: ((tokens: RefreshedSessionTokens) => void) | null = null
+
+/** Wire Zustand (or tests) so silent refresh updates the same session source as login. */
+export function registerAuthSessionBridge(handler: (tokens: RefreshedSessionTokens) => void): void {
+  applyRefreshedSession = handler
 }
 
 type RetryableRequestConfig = AxiosRequestConfig & {
@@ -77,8 +88,13 @@ async function refreshAccessToken(): Promise<string | null> {
     },
   )
 
-  persistTokens(response.data.tokens.accessToken, response.data.tokens.refreshToken)
-  return response.data.tokens.accessToken
+  const tokens = response.data.tokens
+  if (applyRefreshedSession) {
+    applyRefreshedSession(tokens)
+  } else {
+    persistTokens(tokens.accessToken, tokens.refreshToken)
+  }
+  return tokens.accessToken
 }
 
 apiClient.interceptors.request.use((config) => {
