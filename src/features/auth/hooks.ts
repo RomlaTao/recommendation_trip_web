@@ -1,14 +1,26 @@
 import { useEffect } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
-import { getProfile, login, logout, refreshSession } from '@/features/auth/client'
-import type { LoginPayload, RefreshTokenPayload } from '@/features/auth/contracts'
+import {
+  forgotPassword,
+  getProfile,
+  login,
+  logout,
+  refreshSession,
+  register,
+} from '@/features/auth/client'
+import type {
+  ForgotPasswordPayload,
+  LoginPayload,
+  RefreshTokenPayload,
+  RegisterPayload,
+} from '@/features/auth/contracts'
+import { authQueryKeys } from '@/features/auth/query-keys'
+import { AUTH_STORAGE_KEY } from '@/core/constants/session'
+import { mapProfileToUserInfo, parseRoleFromAccessToken } from '@/features/auth/profile-map'
 import { useAuthStore } from '@/features/auth/store'
 
-export const authQueryKeys = {
-  all: ['auth'] as const,
-  profile: () => [...authQueryKeys.all, 'profile'] as const,
-}
+export { authQueryKeys }
 
 export function useProfileQuery() {
   const accessToken = useAuthStore((state) => state.accessToken)
@@ -20,14 +32,30 @@ export function useProfileQuery() {
   })
 }
 
+export function useRegisterMutation() {
+  return useMutation({
+    mutationFn: (payload: RegisterPayload) => register(payload),
+  })
+}
+
+export function useForgotPasswordMutation() {
+  return useMutation({
+    mutationFn: (payload: ForgotPasswordPayload) => forgotPassword(payload),
+  })
+}
+
 export function useLoginMutation() {
   const queryClient = useQueryClient()
   const setSession = useAuthStore((state) => state.setSession)
+  const setUser = useAuthStore((state) => state.setUser)
 
   return useMutation({
     mutationFn: async (payload: LoginPayload) => {
       const response = await login(payload)
       setSession(response.tokens)
+      const profile = await getProfile()
+      const role = parseRoleFromAccessToken(response.tokens.accessToken)
+      setUser(mapProfileToUserInfo(profile, role))
       await queryClient.invalidateQueries({ queryKey: authQueryKeys.profile() })
       return response
     },
@@ -35,12 +63,14 @@ export function useLoginMutation() {
 }
 
 export function useRefreshSessionMutation() {
+  const queryClient = useQueryClient()
   const setSession = useAuthStore((state) => state.setSession)
 
   return useMutation({
     mutationFn: async (payload: RefreshTokenPayload) => {
       const response = await refreshSession(payload)
       setSession(response.tokens)
+      await queryClient.invalidateQueries({ queryKey: authQueryKeys.profile() })
       return response
     },
   })
@@ -64,53 +94,54 @@ export function useLogoutMutation() {
 
 export function useBootstrapSession() {
   const queryClient = useQueryClient()
-  const {
-    accessToken,
-    refreshToken,
-    hydrateFromStorage,
-    setSession,
-    clearSession,
-    setStatus,
-  } = useAuthStore((state) => state)
+  const hydrateFromStorage = useAuthStore((s) => s.hydrateFromStorage)
+  const setSession = useAuthStore((s) => s.setSession)
+  const clearSession = useAuthStore((s) => s.clearSession)
+  const setStatus = useAuthStore((s) => s.setStatus)
+  const setUser = useAuthStore((s) => s.setUser)
 
   useEffect(() => {
     hydrateFromStorage()
-  }, [hydrateFromStorage])
 
-  useEffect(() => {
     const bootstrap = async () => {
+      const { accessToken, refreshToken } = useAuthStore.getState()
       if (!accessToken && !refreshToken) {
-        setStatus('anonymous')
         return
       }
 
       setStatus('loading')
       try {
-        await queryClient.fetchQuery({
+        const profile = await queryClient.fetchQuery({
           queryKey: authQueryKeys.profile(),
           queryFn: getProfile,
         })
+        const role = parseRoleFromAccessToken(accessToken ?? localStorage.getItem(AUTH_STORAGE_KEY) ?? '')
+        setUser(mapProfileToUserInfo(profile, role))
         setStatus('authenticated')
       } catch {
         if (!refreshToken) {
           clearSession()
+          queryClient.removeQueries({ queryKey: authQueryKeys.all })
           return
         }
 
         try {
           const refreshed = await refreshSession({ refreshToken })
           setSession(refreshed.tokens)
-          await queryClient.fetchQuery({
+          const profile = await queryClient.fetchQuery({
             queryKey: authQueryKeys.profile(),
             queryFn: getProfile,
           })
+          const role = parseRoleFromAccessToken(refreshed.tokens.accessToken)
+          setUser(mapProfileToUserInfo(profile, role))
           setStatus('authenticated')
         } catch {
           clearSession()
+          queryClient.removeQueries({ queryKey: authQueryKeys.all })
         }
       }
     }
 
     void bootstrap()
-  }, [accessToken, clearSession, queryClient, refreshToken, setSession, setStatus])
+  }, [clearSession, hydrateFromStorage, queryClient, setSession, setStatus, setUser])
 }

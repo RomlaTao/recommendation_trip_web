@@ -1,21 +1,23 @@
 import { create } from 'zustand'
 
 import { AUTH_STORAGE_KEY, REFRESH_STORAGE_KEY } from '@/core/constants/session'
-import type { AuthSessionState, TokenPair, UserProfileResponse } from '@/features/auth/contracts'
+import type { AuthSessionState, TokenPair } from '@/features/auth/contracts'
+import type { UserInfo } from '@/features/auth/types/auth.types'
 
 type AuthStore = AuthSessionState & {
+  user: UserInfo | null
   setSession: (tokens: TokenPair) => void
   clearSession: () => void
-  setProfile: (profile: UserProfileResponse | null) => void
   hydrateFromStorage: () => void
   setStatus: (status: AuthSessionState['status']) => void
+  setUser: (user: UserInfo | null) => void
 }
 
-const initialState: AuthSessionState = {
+const initialState: AuthSessionState & { user: UserInfo | null } = {
   accessToken: null,
   refreshToken: null,
-  profile: null,
   status: 'anonymous',
+  user: null,
 }
 
 export const useAuthStore = create<AuthStore>((set) => ({
@@ -35,9 +37,6 @@ export const useAuthStore = create<AuthStore>((set) => ({
     localStorage.removeItem(REFRESH_STORAGE_KEY)
     set({ ...initialState })
   },
-  setProfile: (profile) => {
-    set({ profile })
-  },
   hydrateFromStorage: () => {
     const accessToken = localStorage.getItem(AUTH_STORAGE_KEY)
     const refreshToken = localStorage.getItem(REFRESH_STORAGE_KEY)
@@ -51,9 +50,13 @@ export const useAuthStore = create<AuthStore>((set) => ({
       accessToken,
       refreshToken,
       status: 'loading',
+      user: null,
     })
   },
   setStatus: (status) => {
     set({ status })
+  },
+  setUser: (user) => {
+    set({ user })
   },
 }))

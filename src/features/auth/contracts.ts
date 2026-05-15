@@ -1,45 +1,49 @@
-export type LoginPayload = {
+export type TokenPair = {
+  accessToken: string
+  refreshToken: string
+  expiresIn?: number
+}
+
+export interface LoginPayload {
   email: string
   password: string
 }
 
-export type RefreshTokenPayload = {
-  refreshToken: string
-}
-
-export type TokenPair = {
-  accessToken: string
-  refreshToken: string
-  expiresIn: number
-}
-
-export type LoginResponse = {
+/** Nest `POST /auth/login` body — unwrap → `{ userId, tokens }`. */
+export interface LoginResponse {
   userId: string
   tokens: TokenPair
 }
 
-export type RefreshTokenResponse = {
+export interface RefreshTokenPayload {
+  refreshToken: string
+}
+
+export interface RefreshTokenResponse {
   tokens: TokenPair
 }
 
-export type UserProfileResponse = {
-  id: string
+export interface RegisterPayload {
+  username: string
   email: string
-  username: string | null
-  avatarUrl: string | null
-  isActive: boolean
+  password: string
 }
 
-export type AuthStatus = 'anonymous' | 'loading' | 'authenticated'
+export interface ForgotPasswordPayload {
+  email: string
+}
+
+export interface UserProfileResponse {
+  id: string
+  email: string
+  username?: string | null
+  avatarUrl?: string | null
+  isActive?: boolean
+  createdAt?: string | Date
+}
 
 export type AuthSessionState = {
   accessToken: string | null
   refreshToken: string | null
-  profile: UserProfileResponse | null
-  status: AuthStatus
-}
-
-export type AuthErrorResponse = {
-  statusCode: number
-  message: string
+  status: 'anonymous' | 'loading' | 'authenticated'
 }
