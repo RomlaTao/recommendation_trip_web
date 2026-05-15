@@ -1,5 +1,7 @@
 import { QueryClient } from '@tanstack/react-query'
 
+import { attachApiQueryClient } from '@/core/api/axios'
+
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -12,3 +14,5 @@ export const queryClient = new QueryClient({
     },
   },
 })
+
+attachApiQueryClient(queryClient)
