@@ -1,8 +1,12 @@
 import axios, { AxiosError, type AxiosRequestConfig } from 'axios'
+import type { QueryClient } from '@tanstack/react-query'
 
+import { getApiBaseUrl } from '@/core/api/base-url'
+import { unwrapApiData } from '@/core/api/envelope'
 import { AUTH_STORAGE_KEY, REFRESH_STORAGE_KEY } from '@/core/constants/session'
-
-const defaultBaseUrl = 'http://localhost:3000'
+import { authQueryKeys } from '@/features/auth/query-keys'
+import type { RefreshTokenResponse } from '@/features/auth/contracts'
+import { useAuthStore } from '@/features/auth/store'
 
 export type ApiError = {
   statusCode: number
@@ -13,46 +17,29 @@ type ApiErrorPayload = {
   message?: string | string[]
 }
 
-/** Matches API refresh payload; kept in core to avoid importing feature contracts. */
-export type RefreshedSessionTokens = {
-  accessToken: string
-  refreshToken: string
-  expiresIn: number
-}
-
-type RefreshResponse = {
-  tokens: RefreshedSessionTokens
-}
-
-let applyRefreshedSession: ((tokens: RefreshedSessionTokens) => void) | null = null
-
-/** Wire Zustand (or tests) so silent refresh updates the same session source as login. */
-export function registerAuthSessionBridge(handler: (tokens: RefreshedSessionTokens) => void): void {
-  applyRefreshedSession = handler
-}
-
 type RetryableRequestConfig = AxiosRequestConfig & {
   _retry?: boolean
 }
 
 export const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL ?? defaultBaseUrl,
+  baseURL: getApiBaseUrl(),
   timeout: 15_000,
   headers: {
     'Content-Type': 'application/json',
   },
 })
 
-let refreshPromise: Promise<string | null> | null = null
+let apiQueryClient: QueryClient | null = null
 
-function persistTokens(accessToken: string, refreshToken: string) {
-  localStorage.setItem(AUTH_STORAGE_KEY, accessToken)
-  localStorage.setItem(REFRESH_STORAGE_KEY, refreshToken)
+export function attachApiQueryClient(client: QueryClient): void {
+  apiQueryClient = client
 }
 
+let refreshPromise: Promise<string | null> | null = null
+
 function clearSessionAndRedirect() {
-  localStorage.removeItem(AUTH_STORAGE_KEY)
-  localStorage.removeItem(REFRESH_STORAGE_KEY)
+  useAuthStore.getState().clearSession()
+  apiQueryClient?.removeQueries({ queryKey: authQueryKeys.all })
   if (window.location.pathname !== '/login') {
     window.location.replace('/login')
   }
@@ -76,8 +63,11 @@ async function refreshAccessToken(): Promise<string | null> {
     return null
   }
 
-  const response = await axios.post<RefreshResponse>(
-    `${import.meta.env.VITE_API_BASE_URL ?? defaultBaseUrl}/auth/refresh`,
+  const base = getApiBaseUrl().replace(/\/$/, '')
+  const refreshUrl = `${base}/auth/refresh`
+
+  const response = await axios.post<unknown>(
+    refreshUrl,
     { refreshToken },
     {
       timeout: 15_000,
@@ -88,13 +78,10 @@ async function refreshAccessToken(): Promise<string | null> {
     },
   )
 
-  const tokens = response.data.tokens
-  if (applyRefreshedSession) {
-    applyRefreshedSession(tokens)
-  } else {
-    persistTokens(tokens.accessToken, tokens.refreshToken)
-  }
-  return tokens.accessToken
+  const body = unwrapApiData<RefreshTokenResponse>(response.data)
+  useAuthStore.getState().setSession(body.tokens)
+  void apiQueryClient?.invalidateQueries({ queryKey: authQueryKeys.profile() })
+  return body.tokens.accessToken
 }
 
 apiClient.interceptors.request.use((config) => {
@@ -109,6 +96,20 @@ apiClient.interceptors.response.use(
   (response) => response,
   async (error: AxiosError<ApiErrorPayload>) => {
     const originalRequest = error.config as RetryableRequestConfig | undefined
+
+    if (!error.response) {
+      const isTimeout = error.code === 'ECONNABORTED'
+      const base = getApiBaseUrl()
+      const devHint = import.meta.env.DEV
+        ? ` Start Nest on the same host/port as ${base}. If the site is opened via http://127.0.0.1 or a LAN IP, ensure Nest CORS allows that Origin (dev allows all).`
+        : ''
+      return Promise.reject({
+        statusCode: 0,
+        message: isTimeout
+          ? 'Request timed out. Try again.'
+          : `Cannot reach the API.${devHint}`,
+      } satisfies ApiError)
+    }
 
     if (
       error.response?.status === 401 &&

@@ -1,0 +1,73 @@
+/**
+ * Single source of truth for app colors. Change values here to retheme the UI.
+ * Semantic tokens map to Tailwind in tailwind.config.js.
+ */
+:root {
+  --palette-primary-rgb: 0 0 0;
+  --palette-error-rgb: 186 26 26;
+  --palette-scrim-rgb: 0 0 0;
+  --palette-primary-strong-rgb: 39 39 42;
+  --palette-on-media-rgb: 255 255 255;
+  --palette-accent-highlight-rgb: 183 243 151;
+  --palette-success-rgb: 16 185 129;
+
+  --palette-tertiary: #000000;
+  --palette-tertiary-fixed: #e2e2e2;
+  --palette-tertiary-fixed-dim: #c6c6c7;
+  --palette-surface-container-highest: #e3e2e2;
+  --palette-on-tertiary-fixed: #1a1c1c;
+  --palette-primary-fixed-dim: #c8c6c5;
+  --palette-on-error-container: #93000a;
+  --palette-surface-container-low: #f5f3f3;
+  --palette-on-surface-variant: #444748;
+  --palette-on-tertiary-container: #838484;
+  --palette-surface-container-high: #e9e8e7;
+  --palette-secondary-fixed: #e2e2e2;
+  --palette-outline: #747878;
+  --palette-on-secondary: #ffffff;
+  --palette-on-primary-fixed-variant: #474646;
+  --palette-primary-fixed: #e5e2e1;
+  --palette-on-background: #1b1c1c;
+  --palette-inverse-on-surface: #f2f0f0;
+  --palette-surface-variant: #e3e2e2;
+  --palette-surface-tint: #5f5e5e;
+  --palette-surface-container-lowest: #ffffff;
+  --palette-inverse-surface: #303031;
+  --palette-surface-dim: #dbdad9;
+  --palette-on-secondary-fixed-variant: #454747;
+  --palette-tertiary-container: #1a1c1c;
+  --palette-background: #fbf9f9;
+  --palette-surface-bright: #fbf9f9;
+  --palette-outline-variant: #c4c7c7;
+  --palette-on-tertiary: #ffffff;
+  --palette-on-error: #ffffff;
+  --palette-surface: #fbf9f9;
+  --palette-on-secondary-container: #5f6161;
+  --palette-inverse-primary: #c8c6c5;
+  --palette-surface-container: #efeded;
+  --palette-secondary: #5d5f5f;
+  --palette-on-primary-fixed: #1c1b1b;
+  --palette-on-primary: #ffffff;
+  --palette-secondary-container: #dcdddd;
+  --palette-on-surface: #1b1c1c;
+  --palette-primary-container: #1c1b1b;
+  --palette-on-tertiary-fixed-variant: #454747;
+  --palette-on-primary-container: #858383;
+  --palette-secondary-fixed-dim: #c6c6c7;
+  --palette-error-container: #ffdad6;
+  --palette-on-secondary-fixed: #1a1c1c;
+
+  --palette-hero-from: #0b513d;
+  --palette-hero-via: #003527;
+  --palette-hero-to: #002117;
+
+  --palette-footer-bg: #1b1c1c;
+  --palette-footer-fg: #f2f0f0;
+  --palette-footer-bg-rgb: 27 28 28;
+  --palette-footer-fg-rgb: 242 240 240;
+
+  --palette-admin-sidebar: #064e3b;
+  --palette-rating-star: #f59e0b;
+  --palette-card-shadow: 0 20px 50px -12px rgb(0 0 0 / 0.08);
+  --palette-fc-border: #c4c7c7;
+}
