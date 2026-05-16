@@ -94,7 +94,7 @@ export function resolveRecommendAnchorPlaceId(
   return { placeId: null, source: null }
 }
 
-/** Anchor coords for discover sidebar / itinerary `trip_context.last_location`. */
+/** Anchor coords for discover sidebar / itinerary `day_context.last_location`. */
 export function buildAnchorPlacePoint(
   placeId: string | null | undefined,
   coordsByPlaceId: Map<string, { lat: number; lng: number }>,

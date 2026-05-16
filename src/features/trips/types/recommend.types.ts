@@ -12,6 +12,10 @@ export interface ItineraryLastLocation {
 export interface ItineraryTripContext {
   region_id: string
   current_time: string
+}
+
+export interface ItineraryDayContext {
+  day_id: string
   last_location: ItineraryLastLocation
   draft_route_ids: string[]
 }
@@ -25,6 +29,7 @@ export interface ItineraryConstraints {
 export interface ItineraryRecommendationRequest {
   user_context: ItineraryUserContext
   trip_context: ItineraryTripContext
+  day_context: ItineraryDayContext
   constraints: ItineraryConstraints
 }
 

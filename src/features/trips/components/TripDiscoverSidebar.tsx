@@ -82,10 +82,13 @@ export interface TripDiscoverSidebarProps {
   /** Copy for the compact anchor info card (no manual picker). */
   anchorSummary: string
   anchorPlacePayload: { place_id: string; lat: number; lng: number } | null
-  tripFallbackLatLng: { lat: number; lng: number }
-  /** False when itinerary has no stops yet — UI hint only; queries still run using fallback coords. */
-  tripHasItemStops: boolean
-  itineraryPlaceIds: Set<string>
+  /** Trip day id sent as `day_context.day_id` (selected planning day). */
+  planningDayId: string
+  dayFallbackLatLng: { lat: number; lng: number }
+  /** False when the selected day has no stops — UI hint only; queries still run using fallback coords. */
+  dayHasItemStops: boolean
+  /** Place ids already on the selected day (`day_context.draft_route_ids` source). */
+  dayItineraryPlaceIds: Set<string>
   onSuggestAdd: (placeId: string) => void
   suggestAddPending: boolean
 }
@@ -101,9 +104,10 @@ export function TripDiscoverSidebar({
   tripDestinationId,
   anchorSummary,
   anchorPlacePayload,
-  tripFallbackLatLng,
-  tripHasItemStops,
-  itineraryPlaceIds,
+  planningDayId,
+  dayFallbackLatLng,
+  dayHasItemStops,
+  dayItineraryPlaceIds,
   onSuggestAdd,
   suggestAddPending,
 }: TripDiscoverSidebarProps) {
@@ -122,13 +126,13 @@ export function TripDiscoverSidebar({
     ) {
       return { lat: anchorPlacePayload.lat, lng: anchorPlacePayload.lng }
     }
-    return tripFallbackLatLng
-  }, [anchorPlacePayload, tripFallbackLatLng])
+    return dayFallbackLatLng
+  }, [anchorPlacePayload, dayFallbackLatLng])
 
   useEffect(() => {
     if (!open) return
     setRecommendBatch(0)
-  }, [open, tripDestinationId])
+  }, [open, tripDestinationId, planningDayId])
   useEffect(() => {
     setRecommendBatch(0)
   }, [chip, searchQuery])
@@ -177,11 +181,11 @@ export function TripDiscoverSidebar({
     const rows = destinationQuery.data ?? []
     const anchorId = anchorPlacePayload?.place_id
     return rows.filter((p) => {
-      if (itineraryPlaceIds.has(p.id)) return false
+      if (dayItineraryPlaceIds.has(p.id)) return false
       if (anchorId && p.id === anchorId) return false
       return true
     })
-  }, [destinationQuery.data, itineraryPlaceIds, anchorPlacePayload?.place_id])
+  }, [destinationQuery.data, dayItineraryPlaceIds, anchorPlacePayload?.place_id])
 
   const activeCandidates = useMemo(
     () => baseCandidates.filter((p) => matchesChip(p, chip)),
@@ -199,16 +203,17 @@ export function TripDiscoverSidebar({
   const canLoadMore = topK < 100
 
   const draftRouteIds = useMemo(() => {
-    const ids = new Set(itineraryPlaceIds)
+    const ids = new Set(dayItineraryPlaceIds)
     const anchorId = anchorPlacePayload?.place_id
     if (anchorId) ids.add(anchorId)
     return [...ids]
-  }, [itineraryPlaceIds, anchorPlacePayload?.place_id])
+  }, [dayItineraryPlaceIds, anchorPlacePayload?.place_id])
 
   const rerankEnabled =
     open &&
     Boolean(env.RERANK_API_BASE_URL) &&
     Boolean(tripDestinationId) &&
+    Boolean(planningDayId.trim()) &&
     Number.isFinite(refCoords.lat) &&
     Number.isFinite(refCoords.lng)
 
@@ -218,6 +223,7 @@ export function TripDiscoverSidebar({
       'itinerary-recommendations',
       userId,
       tripDestinationId,
+      planningDayId,
       chip,
       draftRouteIds.join('|'),
       refCoords.lat,
@@ -231,6 +237,9 @@ export function TripDiscoverSidebar({
         trip_context: {
           region_id: tripDestinationId ?? '',
           current_time: new Date().toISOString(),
+        },
+        day_context: {
+          day_id: planningDayId,
           last_location: {
             latitude: refCoords.lat,
             longitude: refCoords.lng,
@@ -287,7 +296,7 @@ export function TripDiscoverSidebar({
     Number.isFinite(anchorPlacePayload.lng)
       ? `${anchorPlacePayload.lat.toFixed(5)}, ${anchorPlacePayload.lng.toFixed(5)}`
       : `${refCoords.lat.toFixed(5)}, ${refCoords.lng.toFixed(5)}${
-          tripHasItemStops ? ' (trip centroid)' : ' (default map center)'
+          dayHasItemStops ? ' (day centroid)' : ' (default map center)'
         }`
 
   return (
@@ -320,11 +329,11 @@ export function TripDiscoverSidebar({
           </p>
         ) : null}
 
-        {!tripHasItemStops ? (
+        {!dayHasItemStops ? (
           <p className="text-xs text-on-surface-variant border border-outline-variant rounded-xl px-4 py-3 bg-surface-container-low leading-relaxed">
-            No stops yet — suggestions still load using popularity and distance from the{' '}
-            <span className="font-semibold text-primary">default map center</span>. Add places to your trip to rank
-            around your real route.
+            No stops on this day yet — suggestions still load using popularity and distance from the{' '}
+            <span className="font-semibold text-primary">default map center</span>. Add places to this day to rank
+            around your route anchor.
           </p>
         ) : null}
 

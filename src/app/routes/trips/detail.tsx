@@ -5,10 +5,8 @@ import { PublicSiteLayout } from '@/components/layouts/PublicSiteLayout'
 import { Alert } from '@/components/ui/Alert'
 import { useAddTripDay, useAddTripItem, useDeleteTripDay, useDeleteTripItem, useTripDetail } from '@/features/trips/hooks/useTrips'
 import { TRIP_ITEM_TYPES, type TripDay } from '@/features/trips/types/trips.types'
-import {
-  routeOverviewStraightLineKm,
-  TripRouteOverviewMap,
-} from '@/features/trips/components/TripRouteOverviewMap'
+import { TripRouteOverviewMap } from '@/features/trips/components/TripRouteOverviewMap'
+import { useRouteOverviewMetrics } from '@/features/trips/hooks/use-mapbox-driving-route'
 import { TripFullCalendar } from '@/features/trips/components/TripFullCalendar'
 import { env } from '@/config/env'
 import { placesApi } from '@/features/places/api/places.api'
@@ -110,35 +108,32 @@ export default function TripDetailRoute() {
     [draftDays, effectiveDayIdForAnchor],
   )
 
-  const firstTripPlaceId = useMemo(() => {
-    const sortedDays = [...draftDays].sort((a, b) => a.dayIndex - b.dayIndex)
-    for (const d of sortedDays) {
-      const items = [...d.items].sort((a, b) => a.sortOrder - b.sortOrder)
-      const first = items[0]
-      if (first?.placeId) return first.placeId
-    }
-    return null
-  }, [draftDays])
+  const dayItineraryPlaceIds = useMemo(() => {
+    const day = draftDays.find((d) => d.id === effectiveDayIdForAnchor)
+    if (!day) return new Set<string>()
+    return new Set(day.items.map((i) => i.placeId).filter(Boolean))
+  }, [draftDays, effectiveDayIdForAnchor])
 
-  const itineraryPlaceIds = useMemo(
-    () =>
-      new Set(draftDays.flatMap((d) => d.items.map((i) => i.placeId)).filter(Boolean)),
-    [draftDays],
-  )
+  const firstDayPlaceId = useMemo(() => {
+    const day = draftDays.find((d) => d.id === effectiveDayIdForAnchor)
+    if (!day) return null
+    const items = [...day.items].sort((a, b) => a.sortOrder - b.sortOrder)
+    return items[0]?.placeId ?? null
+  }, [draftDays, effectiveDayIdForAnchor])
 
   const effectiveRecommendAnchorPlaceId = useMemo(() => {
     if (
       discoverLastAddedPlaceId &&
-      itineraryPlaceIds.has(discoverLastAddedPlaceId)
+      dayItineraryPlaceIds.has(discoverLastAddedPlaceId)
     ) {
       return discoverLastAddedPlaceId
     }
-    return recommendAnchor.placeId ?? firstTripPlaceId
+    return recommendAnchor.placeId ?? firstDayPlaceId
   }, [
     discoverLastAddedPlaceId,
-    itineraryPlaceIds,
+    dayItineraryPlaceIds,
     recommendAnchor.placeId,
-    firstTripPlaceId,
+    firstDayPlaceId,
   ])
 
   const placeIds = useMemo(() => {
@@ -188,13 +183,12 @@ export default function TripDetailRoute() {
     [effectiveRecommendAnchorPlaceId, placeCoordsMap],
   )
 
-  const tripFallbackLatLng = useMemo(() => {
+  const dayFallbackLatLng = useMemo(() => {
     const coords: { lat: number; lng: number }[] = []
-    draftDays.forEach((d) => {
-      d.items.forEach((i) => {
-        const c = placeCoordsMap.get(i.placeId)
-        if (c && Number.isFinite(c.lat) && Number.isFinite(c.lng)) coords.push(c)
-      })
+    const day = draftDays.find((d) => d.id === effectiveDayIdForAnchor)
+    day?.items.forEach((i) => {
+      const c = placeCoordsMap.get(i.placeId)
+      if (c && Number.isFinite(c.lat) && Number.isFinite(c.lng)) coords.push(c)
     })
     if (!coords.length) {
       const tripDestination = (destinationsQuery.data ?? []).find(
@@ -207,7 +201,12 @@ export default function TripDetailRoute() {
     const lat = coords.reduce((s, p) => s + p.lat, 0) / coords.length
     const lng = coords.reduce((s, p) => s + p.lng, 0) / coords.length
     return { lat, lng }
-  }, [draftDays, destinationsQuery.data, placeCoordsMap, trip.data?.destinationId])
+  }, [draftDays, effectiveDayIdForAnchor, destinationsQuery.data, placeCoordsMap, trip.data?.destinationId])
+
+  const dayHasItemStops = useMemo(() => {
+    const day = draftDays.find((d) => d.id === effectiveDayIdForAnchor)
+    return (day?.items.length ?? 0) > 0
+  }, [draftDays, effectiveDayIdForAnchor])
 
   const discoverAnchorSummary = useMemo(() => {
     if (totalItems === 0) {
@@ -219,7 +218,7 @@ export default function TripDetailRoute() {
     const name = placeMetaMap.get(pid)?.name ?? `Place ${pid.slice(0, 8)}…`
     if (
       discoverLastAddedPlaceId &&
-      itineraryPlaceIds.has(discoverLastAddedPlaceId) &&
+      dayItineraryPlaceIds.has(discoverLastAddedPlaceId) &&
       pid === discoverLastAddedPlaceId
     ) {
       return `${name} — most recently added stop`
@@ -237,7 +236,7 @@ export default function TripDetailRoute() {
     effectiveRecommendAnchorPlaceId,
     placeMetaMap,
     discoverLastAddedPlaceId,
-    itineraryPlaceIds,
+    dayItineraryPlaceIds,
     recommendAnchor.placeId,
     recommendAnchor.source,
   ])
@@ -376,10 +375,10 @@ export default function TripDetailRoute() {
     },
   })
 
-  const approxRouteKmDay =
-    routeOverviewWaypointsForDay.length >= 2
-      ? routeOverviewStraightLineKm(routeOverviewWaypointsForDay)
-      : 0
+  const routeMetrics = useRouteOverviewMetrics(
+    routeOverviewWaypointsForDay,
+    env.MAPBOX_ACCESS_TOKEN,
+  )
 
   const saveChanges = useMutation({
     mutationFn: async () => {
@@ -675,7 +674,15 @@ export default function TripDetailRoute() {
                       <div className="flex items-center gap-2 flex-wrap">
                         {routeOverviewWaypointsForDay.length >= 2 && (
                           <p className="text-[11px] text-on-surface-variant uppercase tracking-[0.12em]">
-                            ~{approxRouteKmDay.toFixed(1)} km this day (straight line)
+                            {routeMetrics.isLoading
+                              ? 'Calculating driving route…'
+                              : `~${routeMetrics.distanceKm.toFixed(1)} km this day${
+                                  routeMetrics.isDrivingRoute
+                                    ? routeMetrics.durationMinutes > 0
+                                      ? ` · ~${routeMetrics.durationMinutes} min drive`
+                                      : ' (driving)'
+                                    : ' (approx.)'
+                                }`}
                           </p>
                         )}
                         <button
@@ -829,9 +836,10 @@ export default function TripDetailRoute() {
                 tripDestinationId={trip.data?.destinationId ?? null}
                 anchorSummary={discoverAnchorSummary}
                 anchorPlacePayload={anchorPlacePayload}
-                tripFallbackLatLng={tripFallbackLatLng}
-                tripHasItemStops={totalItems > 0}
-                itineraryPlaceIds={itineraryPlaceIds}
+                planningDayId={effectiveDayIdForAnchor}
+                dayFallbackLatLng={dayFallbackLatLng}
+                dayHasItemStops={dayHasItemStops}
+                dayItineraryPlaceIds={dayItineraryPlaceIds}
                 onSuggestAdd={(pid) => {
                   const dayId = selectedDayId || draftDays[0]?.id
                   if (!dayId) return
