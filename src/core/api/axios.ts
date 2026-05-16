@@ -5,7 +5,7 @@ import { getApiBaseUrl } from '@/core/api/base-url'
 import { unwrapApiData } from '@/core/api/envelope'
 import { AUTH_STORAGE_KEY, REFRESH_STORAGE_KEY } from '@/core/constants/session'
 import { authQueryKeys } from '@/features/auth/query-keys'
-import type { RefreshTokenResponse } from '@/features/auth/contracts'
+import type { RefreshTokenResponse, TokenPair } from '@/features/auth/contracts'
 import { useAuthStore } from '@/features/auth/store'
 
 export type ApiError = {
@@ -36,6 +36,23 @@ export function attachApiQueryClient(client: QueryClient): void {
 }
 
 let refreshPromise: Promise<string | null> | null = null
+
+type AuthSessionBridge = (tokens: TokenPair) => void
+
+let authSessionBridge: AuthSessionBridge | null = null
+
+/** Wired from `app-providers` so token refresh can update session without extra coupling. */
+export function registerAuthSessionBridge(bridge: AuthSessionBridge): void {
+  authSessionBridge = bridge
+}
+
+function applySession(tokens: TokenPair): void {
+  if (authSessionBridge) {
+    authSessionBridge(tokens)
+    return
+  }
+  useAuthStore.getState().setSession(tokens)
+}
 
 function clearSessionAndRedirect() {
   useAuthStore.getState().clearSession()
@@ -79,7 +96,7 @@ async function refreshAccessToken(): Promise<string | null> {
   )
 
   const body = unwrapApiData<RefreshTokenResponse>(response.data)
-  useAuthStore.getState().setSession(body.tokens)
+  applySession(body.tokens)
   void apiQueryClient?.invalidateQueries({ queryKey: authQueryKeys.profile() })
   return body.tokens.accessToken
 }
